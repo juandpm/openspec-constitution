@@ -107,17 +107,6 @@ Cada cambio se registra en `CHANGELOG.md`.
 
 ---
 
-## Cómo contribuir
-
-1. Abrir PR con el cambio propuesto.
-2. Actualizar `VERSION` según el tipo de cambio.
-3. Añadir entrada en `CHANGELOG.md`.
-4. Tras merge a `main`: crear tag `vX.Y.Z` y push.
-
-Cambios a `constitution.md` requieren justificación fuerte. Cambios a `phase-templates.md` y `vitest-patterns.md` son más flexibles (son guías operativas, no reglas).
-
----
-
 ## Historia
 
 Este repo nace de la experiencia del proyecto `flows` (WhatsApp Flows Lambda), donde la adopción de OpenSpec en 7 fases elevó el proyecto de código sin estructura a 62 tests, 92% de cobertura y CI con gate de calidad. Todas las decisiones codificadas aquí salen de esa experiencia.
