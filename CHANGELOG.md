@@ -7,6 +7,29 @@ y el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [1.1.0] — 2026-04-21
+
+### Added
+
+- **`docs/structure.md`** — Estructura de directorios recomendada para proyectos serverless Node.js, con convenciones por carpeta, diferencias explicadas vs el repo `flows` de referencia, y tabla de archivos opcionales.
+- **`templates/.env.example`** — Template de variables de entorno. Se copia a la raíz de cada repo legacy al hacer onboarding; permite ver qué variables necesita el proyecto sin pedirlas.
+
+### Changed
+
+- Rama por defecto del repo: `master` → `main`. No afecta a consumidores (los `curl` usan tag `v1.0.0`+), pero alinea con convenciones actuales.
+- `playbook-legacy-onboarding.md` — Paso 0 ahora incluye descarga de `.env.example` si no existe uno en el repo legacy.
+
+### Fixed
+
+- Greps del prompt de onboarding ahora usan `grep -E` y escapan correctamente puntos y paréntesis literales.
+- Typo residual (`no`) en separador de fase del prompt de onboarding.
+
+### Compatibilidad
+
+Los repos existentes en `v1.0.0` **no necesitan migrar**. La adopción de la estructura recomendada y `.env.example` es opcional.
+
+---
+
 ## [1.0.0] — 2026-04-21
 
 ### Added

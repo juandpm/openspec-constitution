@@ -35,7 +35,7 @@ Si un paso no aplica a tu repo (ej: ya tiene Vitest), márcalo como `[x] N/A —
 3. Copiar los archivos base desde el repo `openspec-constitution` (usar el tag de versión que vas a adoptar):
 
    ```bash
-   CONSTITUTION_VERSION="v1.0.0"
+   CONSTITUTION_VERSION="v1.1.0"
    REPO="https://raw.githubusercontent.com/juandpm/openspec-constitution/${CONSTITUTION_VERSION}"
 
    curl -O ${REPO}/templates/eslint.config.js
@@ -46,7 +46,18 @@ Si un paso no aplica a tu repo (ej: ya tiene Vitest), márcalo como `[x] N/A —
    mkdir -p .github/workflows && curl -o .github/workflows/deploy-lambda.yml ${REPO}/templates/github-workflow.yml
    mkdir -p .claude/hooks && curl -o .claude/hooks/post-archive.js ${REPO}/templates/claude-hooks/post-archive.js
    curl -o .claude/settings.local.json ${REPO}/templates/claude-hooks/settings.local.json
+   curl -O ${REPO}/templates/.env.example
    ```
+
+   | Origen en constitución                    | Destino en el repo                        |
+   |-------------------------------------------|-------------------------------------------|
+   | `templates/eslint.config.js`              | `eslint.config.js`                        |
+   | `templates/.prettierrc`                   | `.prettierrc`                             |
+   | `templates/vitest.config.js`              | `vitest.config.js`                        |
+   | `templates/tests-setup.js`                | `tests/setup.js`                          |
+   | `templates/github-workflow.yml`           | `.github/workflows/deploy-lambda.yml`     |
+   | `templates/claude-hooks/post-archive.js`  | `.claude/hooks/post-archive.js`           |
+   | `templates/claude-hooks/settings.local.json` | `.claude/settings.local.json`          |
 
 ### Por qué importa
 
