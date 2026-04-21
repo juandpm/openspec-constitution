@@ -1,0 +1,23 @@
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node (por si alguien clona y hace experimentos con los templates)
+node_modules/
+*.log
+npm-debug.log*
+
+# Entornos
+.env
+.env.local
+
+# Artefactos temporales
+*.tmp
+*.bak
+INSTALL.md
