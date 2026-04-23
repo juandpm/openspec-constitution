@@ -7,6 +7,39 @@ y el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [Unreleased] — 2.0.0
+
+### Added
+
+- **Fase 8 — Documentación para agentes** en `phase-templates.md`: obligatoria al final del ciclo de onboarding. Genera `CLAUDE.md`, valida `README.md`, configura `.gitattributes` para clasificación correcta en GitHub.
+- **`templates/CLAUDE.md`**: plantilla base en inglés con las 8 secciones mínimas (Project overview, Development commands, Architecture, Code conventions, Testing, Secrets and environment, CI/CD, Non-obvious details).
+- **`templates/.gitattributes`**: plantilla con exclusiones de Linguist para `coverage/`, `dist/`, `build/`, `htmlcov/`, y normalización de line endings.
+- **`templates/README.md`**: plantilla en español con las 6 secciones mínimas (Stack, Instalación, Uso, Scripts, Tests y cobertura, Deploy).
+- **`docs/greenfield-onboarding.md`**: flujo condensado para repos nuevos, sin la parte de diagnóstico de legacy.
+- **`docs/agent-documentation.md`**: reglas para escribir `CLAUDE.md` y `README.md` que un agente pueda usar sin ambigüedad.
+- **Sección 11 — Documentación para agentes** en `constitution.md`: obliga los 3 artefactos de arriba.
+- **Patrones 6 y 7** en `vitest-patterns.md`: `vi.hoisted()` + `vi.mock()` para AWS SDK; caché de clientes externos por instancia Lambda.
+
+### Changed
+
+- **`playbook-legacy-onboarding.md` → `playbook-onboarding.md`**: ahora cubre legacy y greenfield con dos variantes del Paso 0.
+- **Paso 3 del playbook**: lista de fases canónicas pasa de 7 a 8 fases.
+- **Fase 4 en `phase-templates.md`**: agrega advertencia explícita en negrita prohibiendo entrar sin Fase 2 cerrada.
+- **`templates/claude-hooks/post-archive.js`**: la instrucción ahora es robusta a la ausencia de `improvement-plan.md` (para repos greenfield donde no existe).
+- **Hook post-archive**: lee condicionalmente `improvement-plan.md` si existe.
+
+### Removed
+
+Nada. Todo lo de v1.x.x sigue presente; v2.0.0 solo suma requisitos.
+
+### Compatibilidad
+
+Los repos existentes en `v1.0.0` o `v1.1.0` **no se rompen** — siguen apuntando a su versión por tag. La migración a `v2.0.0` se hace con un change OpenSpec explícito `upgrade-constitution-v1-to-v2` (propuesto en cada repo por separado).
+
+Adopción de nuevos repos a partir de esta fecha: usar `v2.0.0`.
+
+---
+
 ## [1.1.0] — 2026-04-21
 
 ### Added
