@@ -1,6 +1,6 @@
 # Plantillas de fases canónicas
 
-> Versión: 1.0.0
+> Versión: 2.0.0
 > Uso: al lanzar `/opsx:propose phase-N-...`, Claude consulta este archivo para
 > generar el proposal y el tasks.md base adaptados al repo específico.
 
@@ -228,6 +228,8 @@ seguras de aplicar ahora que tenemos Vitest configurado.
 ---
 
 ## Fase 4 — Refactor Estructural
+
+> **⚠️ NO ENTRAR A ESTA FASE SIN FASE 2 CERRADA.** El error más caro documentado en el repo `flows` fue refactorizar sin red de seguridad. Si `npm test` corre 0 tests, esta fase se pospone. Tests no-opcionales en Fase 2 previenen refactor a ciegas.
 
 ### Objetivo
 
@@ -479,6 +481,72 @@ reales (sin mocks) para encryption y mocks para el entry point.
 
 ---
 
+## Fase 8 — Documentación para agentes
+
+### Objetivo
+
+Dejar el repo legible para futuros agentes de IA y correctamente clasificado en GitHub Linguist.
+
+### Por qué importa
+
+Cada vez que abres una sesión nueva con Claude Code pierdes 5-10 minutos explicando el repo desde cero: qué hace, cómo se testea, qué convenciones usa, dónde están los gotchas. Un `CLAUDE.md` bien hecho elimina ese costo de forma permanente. Además, si `coverage/` o `dist/` no están excluidos de Linguist, GitHub puede clasificar el repo como "HTML" o "CSS" cuando en realidad es JavaScript — confunde a herramientas automáticas y a personas nuevas.
+
+### Cuándo aplica
+
+Siempre al final del ciclo de fases. También cuando:
+- Linguist clasifica mal el lenguaje principal del repo (p.ej. dice "HTML" porque el reporte de cobertura pesa más que el código).
+- No existe `CLAUDE.md` o está incompleto (tiene `[TODO:]` pendientes).
+
+### Cuándo saltar
+
+Solo si los tres artefactos ya existen con las secciones exigidas **y** la clasificación de Linguist es correcta. (En repos recién onboardeados esto nunca es el caso.)
+
+### Plantilla de proposal
+
+```markdown
+## Why
+
+Cada sesión nueva con Claude Code requiere 5-10 minutos de contexto verbal
+sobre el repo. Un `CLAUDE.md` completo elimina ese costo. Adicionalmente,
+GitHub clasifica este repo como [HTML/CSS/incorrecto] porque [coverage/dist/build]
+no está excluido del cálculo de Linguist.
+
+Esta fase deja el repo en estado "agent-ready": cualquier sesión futura
+arranca con contexto completo sin explicación manual.
+
+## What
+
+- Crear/actualizar `CLAUDE.md` desde `templates/CLAUDE.md` con información real del repo.
+- Verificar que `README.md` tiene las 6 secciones mínimas.
+- Crear `.gitattributes` desde `templates/.gitattributes` para corregir Linguist.
+
+## Non-goals
+
+- No cambiar comportamiento del código.
+- No agregar tests.
+```
+
+### Plantilla de tasks
+
+```markdown
+- [ ] 8.1 Crear/actualizar `CLAUDE.md` desde `templates/CLAUDE.md`
+- [ ] 8.2 Completar todos los placeholders `[TODO: ...]` con info real del repo
+- [ ] 8.3 Verificar que `README.md` tiene las 6 secciones mínimas
+         (Stack, Instalación, Uso, Scripts, Tests y cobertura, Deploy)
+- [ ] 8.4 Crear `.gitattributes` desde `templates/.gitattributes`
+- [ ] 8.5 Commit → push → verificar en GitHub que Linguist clasifica el lenguaje correctamente
+- [ ] 8.6 Si Linguist sigue mal: ajustar `.gitattributes` (añadir más rutas) y repetir 8.5
+```
+
+### Criterios de done
+
+- `CLAUDE.md` existe con las 8 secciones, sin `[TODO:]` pendientes.
+- `README.md` tiene las 6 secciones mínimas en español.
+- `.gitattributes` excluye al menos `coverage/` del cálculo de Linguist.
+- GitHub muestra el lenguaje principal correcto (JavaScript, TypeScript, etc. — no HTML ni CSS).
+
+---
+
 ## Checklist general por fase
 
 Antes de hacer `/opsx:archive phase-N-...`:
@@ -491,5 +559,6 @@ Antes de hacer `/opsx:archive phase-N-...`:
 [ ] Criterios de done de esta fase cumplidos
 [ ] Smoke test manual del happy path (fases 1, 3, 4)
 [ ] Cobertura verificada (fases 5, 6, 7)
+[ ] CLAUDE.md y .gitattributes sin TODO pendientes (fase 8)
 [ ] Proposal refleja lo que realmente se hizo (editar si cambió en camino)
 ```

@@ -1,6 +1,6 @@
 # Constitución técnica — Proyectos Node.js
 
-> Versión: 1.0.0
+> Versión: 2.0.0
 > Alcance: todos los repositorios Node.js del equipo (Lambdas, servicios, CLIs, librerías internas).
 > Este documento fija decisiones transversales que **no se rediscuten por repo**.
 > Si un repo necesita desviarse de algún punto, debe documentarlo en su `openspec/project.md`
@@ -173,9 +173,9 @@ Esta estructura no es obligatoria pero sí **recomendada por defecto**. Desviars
 - El primer change propuesto siempre es `document-current-project`.
 - El `project.md` de cada repo debe referenciar esta constitución por versión en su primera línea:
   ```markdown
-  > Adhiere a openspec-constitution v1.0.0
+  > Adhiere a openspec-constitution v2.0.0
   ```
-- Las fases de mejora técnica siguen el orden canónico documentado en `playbook-legacy-onboarding.md`.
+- Las fases de mejora técnica siguen el orden canónico documentado en `playbook-onboarding.md`.
 - Tras cada `/opsx:archive`, el hook `post-archive.js` gatilla una valoración automática del proyecto.
 
 ## 10. Evolución de esta constitución
@@ -184,6 +184,51 @@ Esta estructura no es obligatoria pero sí **recomendada por defecto**. Desviars
 - Cada cambio bumpea la versión (`VERSION` + `CHANGELOG.md`) y crea un tag `vX.Y.Z`.
 - Los repos existentes **no migran automáticamente**. Siguen apuntando a su versión hasta que el equipo decida actualizar.
 - Migrar un repo a una nueva versión es un change OpenSpec explícito: `upgrade-constitution-vX-to-vY`.
+- La migración de `v1.x.x` a `v2.0.0` se ejecuta con el change `upgrade-constitution-v1-to-v2` en cada repo. Implica añadir `CLAUDE.md`, `.gitattributes`, ejecutar Fase 8 y actualizar la referencia en `project.md`.
+
+## 11. Documentación para agentes
+
+Todo repo constitucional debe tener los siguientes tres artefactos en la raíz. Su ausencia equivale a deuda técnica activa y debe resolverse con Fase 8.
+
+### `CLAUDE.md` (obligatorio, en inglés)
+
+Archivo de contexto para agentes de IA (Claude Code y equivalentes). Debe contener exactamente estas 8 secciones, sin placeholders `[TODO:]` pendientes:
+
+1. **Project overview** — qué hace el repo, stack, entorno de ejecución.
+2. **Development commands** — comandos con explicación de cuándo usarlos.
+3. **Architecture** — diagrama de flujo de datos y responsabilidades por módulo.
+4. **Code conventions** — desviaciones locales de la constitución, si las hay.
+5. **Testing** — estrategia de mocks, cómo correr tests, qué cubre.
+6. **Secrets and environment** — variables requeridas y cómo obtenerlas (sin valores reales).
+7. **CI/CD** — qué hace el pipeline y cuándo se activa el deploy.
+8. **Non-obvious details** — gotchas, decisiones contraintuitivas, workarounds documentados.
+
+Usar `templates/CLAUDE.md` como base. Ver `docs/agent-documentation.md` para reglas de redacción.
+
+### `.gitattributes` (obligatorio)
+
+Debe excluir del cálculo de GitHub Linguist al menos:
+
+- `coverage/**` y `htmlcov/**` — `linguist-generated=true`
+- `dist/**` y `build/**` — `linguist-generated=true`
+- `node_modules/**` — `linguist-vendored=true`
+
+Y normalizar line endings a LF para archivos de código (`.js`, `.ts`, `.json`, `.md`, `.yml`).
+
+Usar `templates/.gitattributes` como base.
+
+### `README.md` (obligatorio, en español)
+
+Orientado a onboarding humano rápido. Debe tener estas 6 secciones mínimas:
+
+1. **Stack** — tecnologías principales con versiones.
+2. **Instalación** — pasos exactos desde cero.
+3. **Uso** — cómo invocar / deployar.
+4. **Scripts** — tabla de `npm run X` con descripción de cada uno.
+5. **Tests y cobertura** — cómo correr y qué esperar.
+6. **Deploy** — proceso, entornos, secrets necesarios.
+
+Usar `templates/README.md` como base.
 
 ---
 

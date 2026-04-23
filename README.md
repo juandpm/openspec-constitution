@@ -10,8 +10,8 @@ No es código. Son documentos y plantillas. Cada proyecto Node.js del equipo ref
 
 ## Para quién es
 
-- **Tú, empezando un repo nuevo**: sigue `playbook-legacy-onboarding.md`.
-- **Tú, arreglando un repo legacy**: sigue `playbook-legacy-onboarding.md`. Mismo proceso.
+- **Tú, empezando un repo nuevo**: sigue `playbook-onboarding.md`.
+- **Tú, arreglando un repo legacy**: sigue `playbook-onboarding.md`. Mismo proceso.
 - **Tú, dudando sobre una decisión técnica**: consulta `constitution.md`. Si no está, probablemente es decisión de repo.
 - **Tú, escribiendo tests con Vitest**: `vitest-patterns.md` tiene los trucos no obvios.
 - **Tú, generando propuestas de fase en OpenSpec**: `phase-templates.md` tiene las plantillas.
@@ -26,10 +26,15 @@ openspec-constitution/
 ├── VERSION                                ← versión actual (SemVer)
 ├── CHANGELOG.md                           ← historial de cambios
 │
-├── constitution.md                        ← decisiones técnicas no negociables
-├── playbook-legacy-onboarding.md          ← paso a paso para adoptar OpenSpec
-├── phase-templates.md                     ← plantillas de proposals y tasks por fase
-├── vitest-patterns.md                     ← patrones críticos de testing con ESM
+├── constitution.md                        ← decisiones técnicas no negociables (11 secciones)
+├── playbook-onboarding.md                 ← paso a paso para adoptar OpenSpec (legacy y greenfield)
+├── phase-templates.md                     ← plantillas de proposals y tasks por fase (8 fases)
+├── vitest-patterns.md                     ← patrones críticos de testing con ESM (7 patrones)
+│
+├── docs/
+│   ├── structure.md                       ← estructura de directorios recomendada
+│   ├── greenfield-onboarding.md           ← flujo condensado para repos nuevos
+│   └── agent-documentation.md            ← reglas para escribir CLAUDE.md y README.md
 │
 └── templates/                             ← archivos de config listos para copiar
     ├── eslint.config.js
@@ -37,6 +42,10 @@ openspec-constitution/
     ├── vitest.config.js
     ├── tests-setup.js
     ├── github-workflow.yml
+    ├── .env.example
+    ├── .gitattributes                     ← nuevo en v2.0.0: exclusiones Linguist + LF
+    ├── CLAUDE.md                          ← nuevo en v2.0.0: plantilla para agentes IA
+    ├── README.md                          ← nuevo en v2.0.0: plantilla de README en español
     └── claude-hooks/
         ├── post-archive.js
         └── settings.local.json
@@ -51,23 +60,26 @@ openspec-constitution/
 En el `openspec/project.md` de tu proyecto, la primera línea debe ser:
 
 ```markdown
-> Adhiere a openspec-constitution v1.0.0
-> https://github.com/juandpm/openspec-constitution/tree/v1.0.0
+> Adhiere a openspec-constitution v2.0.0
+> https://github.com/juandpm/openspec-constitution/tree/v2.0.0
 ```
 
 Siempre referencia un **tag de versión**, no `main`. Si la constitución evoluciona después, tu proyecto sigue apuntando a la versión con la que fue construido.
 
 ### 2. Copiar templates al bootstrap
 
-El `playbook-legacy-onboarding.md` indica qué archivos copiar al iniciar un repo. Resumen:
+El `playbook-onboarding.md` indica qué archivos copiar al iniciar un repo. Resumen:
 
 ```bash
-CONSTITUTION_VERSION="v1.0.0"
+CONSTITUTION_VERSION="v2.0.0"
 REPO="https://raw.githubusercontent.com/juandpm/openspec-constitution/${CONSTITUTION_VERSION}"
 
 curl -O ${REPO}/templates/eslint.config.js
 curl -O ${REPO}/templates/.prettierrc
 curl -O ${REPO}/templates/vitest.config.js
+curl -O ${REPO}/templates/.env.example
+curl -O ${REPO}/templates/.gitattributes
+curl -o CLAUDE.md ${REPO}/templates/CLAUDE.md
 
 mkdir -p tests && curl -o tests/setup.js ${REPO}/templates/tests-setup.js
 mkdir -p .github/workflows && curl -o .github/workflows/deploy-lambda.yml ${REPO}/templates/github-workflow.yml
@@ -77,7 +89,7 @@ curl -o .claude/settings.local.json ${REPO}/templates/claude-hooks/settings.loca
 
 ### 3. Seguir el playbook
 
-Ver `playbook-legacy-onboarding.md`. Los pasos son: bootstrap → documentar → gap analysis → fases canónicas.
+Ver `playbook-onboarding.md`. Los pasos son: bootstrap → documentar → gap analysis → fases canónicas.
 
 ---
 
@@ -104,6 +116,17 @@ La versión actual está en el archivo `VERSION` y se refleja en tags `vX.Y.Z`. 
 | **PATCH** (`v1.0.1`) | Clarificaciones, typos, ejemplos adicionales. Repos existentes no necesitan acción. |
 
 Cada cambio se registra en `CHANGELOG.md`.
+
+### Qué cambió en v2.0.0
+
+- **Fase 8 obligatoria** — Documentación para agentes al final de todo ciclo: `CLAUDE.md`, `README.md` validado, `.gitattributes`.
+- **3 templates nuevos** — `templates/CLAUDE.md`, `templates/.gitattributes`, `templates/README.md`.
+- **2 docs nuevos** — `docs/greenfield-onboarding.md` (repos nuevos), `docs/agent-documentation.md` (reglas de escritura).
+- **Playbook unificado** — `playbook-legacy-onboarding.md` renombrado a `playbook-onboarding.md`; cubre legacy y greenfield.
+- **Sección 11 en `constitution.md`** — Obliga `CLAUDE.md` y `.gitattributes` en todo repo constitucional.
+- **Patrones 6 y 7 en `vitest-patterns.md`** — `vi.hoisted()` para AWS SDK; caché de clientes por instancia Lambda.
+
+Los repos en `v1.0.0` o `v1.1.0` **no se rompen**. Migrar a v2.0.0 es un change OpenSpec explícito `upgrade-constitution-v1-to-v2`.
 
 ---
 
