@@ -7,7 +7,7 @@ y el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
-## [Unreleased] — 2.0.0
+## [2.0.0] — 2026-04-23
 
 ### Added
 
