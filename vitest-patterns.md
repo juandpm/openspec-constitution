@@ -1,6 +1,6 @@
 # Patrones críticos de Vitest con ES modules
 
-> Versión: 1.0.0
+> Versión: 2.0.0
 > Uso: consultar durante las fases 5, 6 y 7 cuando surjan problemas de mocking,
 > env vars o cobertura.
 
@@ -276,6 +276,183 @@ Si `DatabaseService` tiene lógica propia (construcción de queries, parseo de r
 
 ---
 
+## Patrón 6 — `vi.hoisted()` + `vi.mock()` para AWS SDK
+
+### Problema
+
+El AWS SDK (`@aws-sdk/client-s3`, `@aws-sdk/client-secrets-manager`, etc.) se importa como ES module. Cuando intentas mockear sus constructores o métodos con `vi.mock`, el mock no tiene efecto porque Vitest hoistea el bloque `vi.mock()` al tope del archivo, pero las variables que quieres asignarle (`mockSend`, `MockS3Client`) **no existen todavía** en ese punto de ejecución.
+
+### Síntoma si lo haces mal
+
+```js
+// ❌ FALLA — mockSend no está disponible cuando vi.mock() se hoistea
+const mockSend = vi.fn();
+
+vi.mock("@aws-sdk/client-s3", () => ({
+  S3Client: vi.fn(() => ({ send: mockSend })),  // ReferenceError: mockSend is not defined
+  GetObjectCommand: vi.fn(),
+}));
+```
+
+```
+ReferenceError: Cannot access 'mockSend' before initialization
+```
+
+### Solución — `vi.hoisted()`
+
+`vi.hoisted()` permite declarar variables que se inicializan **en la misma fase de hoisting** que `vi.mock()`:
+
+```js
+import { vi, describe, it, expect, beforeEach } from "vitest";
+
+// vi.hoisted() se ejecuta en la misma fase que vi.mock() — antes de los imports
+const { mockSend, MockS3Client } = vi.hoisted(() => {
+  const mockSend = vi.fn();
+  const MockS3Client = vi.fn(() => ({ send: mockSend }));
+  return { mockSend, MockS3Client };
+});
+
+vi.mock("@aws-sdk/client-s3", () => ({
+  S3Client: MockS3Client,
+  GetObjectCommand: vi.fn((params) => ({ ...params, _type: "GetObjectCommand" })),
+  PutObjectCommand: vi.fn((params) => ({ ...params, _type: "PutObjectCommand" })),
+}));
+
+beforeEach(() => {
+  mockSend.mockReset();
+});
+```
+
+### Uso en tests
+
+```js
+it("downloads object from S3", async () => {
+  mockSend.mockResolvedValueOnce({
+    Body: { transformToByteArray: vi.fn().mockResolvedValue(new Uint8Array([1, 2, 3])) },
+  });
+
+  const result = await downloadFromS3("my-bucket", "my-key");
+  expect(mockSend).toHaveBeenCalledOnce();
+  expect(result).toBeDefined();
+});
+
+it("handles S3 error", async () => {
+  mockSend.mockRejectedValueOnce(new Error("NoSuchKey"));
+  await expect(downloadFromS3("my-bucket", "missing")).rejects.toThrow("NoSuchKey");
+});
+```
+
+### Cuándo usar este patrón
+
+Siempre que mockees SDKs de terceros (AWS, Stripe, Twilio, etc.) que usan clases con `new`. También aplica para cualquier módulo donde el mock necesite referencias a variables locales del archivo de test.
+
+---
+
+## Patrón 7 — Caché de clientes externos por instancia Lambda
+
+### Problema
+
+En AWS Lambda, el contexto del proceso persiste entre invocaciones warm (el contenedor no se destruye). Si instancias clientes de S3, Secrets Manager u otros SDKs **dentro del handler**, pagas el costo de inicialización (SSL handshake, resolución de credenciales) en cada invocación, incluso en warm starts.
+
+### Síntoma si lo haces mal
+
+```js
+// ❌ Nueva instancia en cada invocación — caro en warm starts
+export const handler = async (event) => {
+  const client = new SecretsManagerClient({ region: "us-east-1" });
+  const secrets = await client.send(new GetSecretValueCommand({ SecretId: "..." }));
+  // ...
+};
+```
+
+CloudWatch mostrará latencias altas y constantes aunque el contenedor esté warm.
+
+### Solución — singletons de módulo con caché explícita
+
+```js
+// src/clients.js
+import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
+import { S3Client } from "@aws-sdk/client-s3";
+
+// Declaradas fuera del handler: persisten entre invocaciones warm
+let cachedSecrets = null;
+let cachedClient = null;
+
+export async function getSecrets() {
+  if (cachedSecrets) return cachedSecrets;
+
+  const client = new SecretsManagerClient({ region: process.env.AWS_REGION });
+  const response = await client.send(
+    new GetSecretValueCommand({ SecretId: process.env.SECRET_NAME })
+  );
+  cachedSecrets = JSON.parse(response.SecretString);
+  return cachedSecrets;
+}
+
+export function getS3Client() {
+  if (!cachedClient) {
+    cachedClient = new S3Client({ region: process.env.AWS_REGION });
+  }
+  return cachedClient;
+}
+```
+
+### Por qué usar variables módulo en vez de un objeto `module.exports`
+
+Las variables `cachedSecrets` y `cachedClient` son estado de módulo. En Lambda, el módulo se evalúa una vez por instancia de contenedor y luego el runtime reutiliza el mismo contexto. `cachedSecrets` sobrevive entre invocaciones warm; en cold start vale `null` y se inicializa una sola vez.
+
+### Cómo testear este patrón
+
+El estado de módulo persiste entre tests si no se resetea. Usar `vi.resetModules()` o resetear explícitamente:
+
+```js
+import { vi, beforeEach, it, expect } from "vitest";
+
+// Mock del SDK antes de importar el módulo bajo prueba
+const { mockSend } = vi.hoisted(() => {
+  const mockSend = vi.fn();
+  return { mockSend };
+});
+
+vi.mock("@aws-sdk/client-secrets-manager", () => ({
+  SecretsManagerClient: vi.fn(() => ({ send: mockSend })),
+  GetSecretValueCommand: vi.fn(),
+}));
+
+// Importar DESPUÉS del mock
+const { getSecrets } = await import("../src/clients.js");
+
+beforeEach(() => {
+  mockSend.mockReset();
+  // Resetear la caché entre tests para que no se filtren entre ellos
+  vi.resetModules();
+});
+
+it("fetches secrets on first call", async () => {
+  mockSend.mockResolvedValueOnce({
+    SecretString: JSON.stringify({ DB_PASSWORD: "secret123" }),
+  });
+  const secrets = await getSecrets();
+  expect(secrets.DB_PASSWORD).toBe("secret123");
+  expect(mockSend).toHaveBeenCalledOnce();
+});
+
+it("returns cached secrets on second call", async () => {
+  mockSend.mockResolvedValueOnce({
+    SecretString: JSON.stringify({ DB_PASSWORD: "secret123" }),
+  });
+  await getSecrets(); // primera llamada — va al SDK
+  await getSecrets(); // segunda llamada — usa caché
+  expect(mockSend).toHaveBeenCalledOnce(); // solo una llamada al SDK
+});
+```
+
+### Invariante crítica
+
+**No reasignar `cachedSecrets` o `cachedClient` dentro del handler**. Si el handler los modifica, el estado se corrompe en warm starts posteriores. Son read-only una vez inicializados.
+
+---
+
 ## Patrón bonus — Encryption con claves reales
 
 ### Problema
@@ -322,6 +499,8 @@ Esto corre en < 100ms y prueba crypto de verdad.
 [ ] coverage.exclude incluye servicios que mockearás completamente
 [ ] Entiendes la diferencia entre vi.mock (hoisted) y vi.doMock (no hoisted)
 [ ] Si hay clases, sabes usar función regular (no arrow) en mockImplementation
+[ ] Si mockeas AWS SDK u otros SDKs con clases, usar vi.hoisted() (Patrón 6)
+[ ] Si el módulo usa cachedSecrets / cachedClient, resetear entre tests con vi.resetModules() (Patrón 7)
 ```
 
 ## Anti-patrones frecuentes
@@ -334,3 +513,6 @@ Esto corre en < 100ms y prueba crypto de verdad.
 | No excluir services mockeados del coverage | Umbrales fallan por 0% ficticio | `coverage.exclude` |
 | Mockear encryption en tests de encryption | Pruebas tus mocks, no tu código | Claves RSA reales |
 | `vi.mock` dentro de `describe` | No se hoistea, no tiene efecto | `vi.mock` a nivel top del archivo |
+| Referenciar variable local en `vi.mock` sin `vi.hoisted()` | ReferenceError: variable no inicializada en fase de hoisting | `vi.hoisted()` para variables que necesites en el mock |
+| Instanciar cliente SDK dentro del handler | Reconexión en cada invocación warm | Singleton de módulo con `let cached = null` |
+| No resetear módulo con caché entre tests | Estado de test anterior contamina el siguiente | `vi.resetModules()` en `beforeEach` |
