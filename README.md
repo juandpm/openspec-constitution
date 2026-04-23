@@ -10,8 +10,8 @@ No es código. Son documentos y plantillas. Cada proyecto Node.js del equipo ref
 
 ## Para quién es
 
-- **Tú, empezando un repo nuevo**: sigue `playbook-legacy-onboarding.md`.
-- **Tú, arreglando un repo legacy**: sigue `playbook-legacy-onboarding.md`. Mismo proceso.
+- **Tú, empezando un repo nuevo**: sigue `playbook-onboarding.md`.
+- **Tú, arreglando un repo legacy**: sigue `playbook-onboarding.md`. Mismo proceso.
 - **Tú, dudando sobre una decisión técnica**: consulta `constitution.md`. Si no está, probablemente es decisión de repo.
 - **Tú, escribiendo tests con Vitest**: `vitest-patterns.md` tiene los trucos no obvios.
 - **Tú, generando propuestas de fase en OpenSpec**: `phase-templates.md` tiene las plantillas.
@@ -27,7 +27,7 @@ openspec-constitution/
 ├── CHANGELOG.md                           ← historial de cambios
 │
 ├── constitution.md                        ← decisiones técnicas no negociables
-├── playbook-legacy-onboarding.md          ← paso a paso para adoptar OpenSpec
+├── playbook-onboarding.md          ← paso a paso para adoptar OpenSpec
 ├── phase-templates.md                     ← plantillas de proposals y tasks por fase
 ├── vitest-patterns.md                     ← patrones críticos de testing con ESM
 │
@@ -59,7 +59,7 @@ Siempre referencia un **tag de versión**, no `main`. Si la constitución evoluc
 
 ### 2. Copiar templates al bootstrap
 
-El `playbook-legacy-onboarding.md` indica qué archivos copiar al iniciar un repo. Resumen:
+El `playbook-onboarding.md` indica qué archivos copiar al iniciar un repo. Resumen:
 
 ```bash
 CONSTITUTION_VERSION="v1.0.0"
@@ -77,7 +77,7 @@ curl -o .claude/settings.local.json ${REPO}/templates/claude-hooks/settings.loca
 
 ### 3. Seguir el playbook
 
-Ver `playbook-legacy-onboarding.md`. Los pasos son: bootstrap → documentar → gap analysis → fases canónicas.
+Ver `playbook-onboarding.md`. Los pasos son: bootstrap → documentar → gap analysis → fases canónicas.
 
 ---
 
