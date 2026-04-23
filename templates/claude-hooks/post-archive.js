@@ -23,7 +23,10 @@ process.stdin.on("end", () => {
           hookSpecificOutput: {
             hookEventName: "PostToolUse",
             additionalContext:
-              "INSTRUCCION AUTOMATICA POST-ARCHIVE: Lee openspec/project.md y openspec/improvement-plan.md (si existe), haz una valoracion completa del estado actual del proyecto y recomienda los proximos pasos concretos a seguir.",
+              "INSTRUCCION AUTOMATICA POST-ARCHIVE: Lee openspec/project.md. " +
+              "Si existe openspec/improvement-plan.md, léelo también. " +
+              "Haz una valoración completa del estado actual del proyecto " +
+              "y recomienda los próximos pasos concretos a seguir.",
           },
         }),
       );

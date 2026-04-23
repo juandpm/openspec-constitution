@@ -1,0 +1,20 @@
+# openspec-constitution v2.0.0 — template .gitattributes
+# Copiar a la raíz del repo. Ajustar si el repo no usa alguna de estas carpetas.
+
+# Excluir generated/build/vendor del cálculo de GitHub Linguist
+coverage/** linguist-generated=true
+htmlcov/**  linguist-generated=true
+dist/**     linguist-generated=true
+build/**    linguist-generated=true
+node_modules/** linguist-vendored=true
+package-lock.json linguist-generated=true
+
+# Forzar LF en archivos de código
+*.js  text eol=lf
+*.jsx text eol=lf
+*.ts  text eol=lf
+*.tsx text eol=lf
+*.json text eol=lf
+*.md  text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
