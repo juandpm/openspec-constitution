@@ -181,7 +181,7 @@ Esta estructura no es obligatoria pero sí **recomendada por defecto**. Desviars
 - El primer change propuesto siempre es `document-current-project`.
 - El `project.md` de cada repo debe referenciar esta constitución por versión en su primera línea:
   ```markdown
-  > Adhiere a openspec-constitution v2.0.0
+  > Adhiere a openspec-constitution v2.1.0
   ```
 - Las fases de mejora técnica siguen el orden canónico documentado en `playbook-onboarding.md`.
 - Tras cada `/opsx:archive`, el hook `post-archive.js` gatilla una valoración automática del proyecto.

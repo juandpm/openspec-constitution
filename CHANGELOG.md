@@ -7,6 +7,24 @@ y el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [2.1.1] — 2026-04-25
+
+### Fixed
+
+- **Referencias de versión** en todos los documentos maestros: `README.md`, `playbook-onboarding.md`, `constitution.md` §9, `docs/greenfield-onboarding.md`, `docs/agent-documentation.md`, `templates/CLAUDE.md`, `templates/README.md` ahora apuntan a `v2.1.0` (antes quedaron en `v2.0.0`).
+- **`templates/github-workflow.yml`**: comentario de cabecera actualizado de `v1.0.0` → `v2.1.0`.
+- **Árbol del repo en `README.md`**: añadidos `templates/logger.js` y `docs/logging.md`, que existían en v2.1.0 pero no estaban listados.
+- **Curl blocks de bootstrap** (`README.md`, `playbook-onboarding.md`, `docs/greenfield-onboarding.md`): añadida línea `curl` para `templates/logger.js` → `src/config/logger.js`.
+- **Tabla de templates** en `playbook-onboarding.md`: añadida fila `templates/logger.js` → `src/config/logger.js`.
+- **`INSTALL.md`**: guía de instalación actualizada a v2.1.0; nota de compatibilidad menciona que `v2.0.0` sigue existiendo.
+- **Sección "Qué cambió en v2.1.0"** añadida en `README.md`.
+
+### Compatibilidad
+
+Sin cambios funcionales. Solo correcciones de documentación. Repos existentes no necesitan acción.
+
+---
+
 ## [2.1.0] — 2026-04-25
 
 ### Added

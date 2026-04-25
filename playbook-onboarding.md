@@ -1,6 +1,6 @@
 # Playbook — Onboarding de OpenSpec (legacy y greenfield)
 
-> Versión: 2.0.0
+> Versión: 2.1.0
 > Aplicable a: cualquier repositorio Node.js que vaya a adoptar OpenSpec.
 > Prerequisito: leer `constitution.md` antes de empezar.
 
@@ -12,7 +12,7 @@
 |---|---|
 | **Repo legacy** — código existente sin OpenSpec | Seguir este playbook completo desde el Paso 0.A |
 | **Repo greenfield** — repo nuevo, aún vacío | Ir al Paso 0.B; luego seguir Paso 1 en adelante. Ver también `docs/greenfield-onboarding.md` para el flujo condensado |
-| **Repo ya onboardeado** — tiene OpenSpec, quiere migrar a v2.0.0 | Ejecutar change `upgrade-constitution-v1-to-v2`: actualizar referencia en `project.md`, ejecutar Fase 8 |
+| **Repo ya onboardeado** — tiene OpenSpec, quiere migrar a v2.1.0 | Ejecutar change `upgrade-constitution-vX-to-v2.1.0`: actualizar referencia en `project.md`, copiar templates nuevos |
 
 ---
 
@@ -47,13 +47,14 @@ Si un paso no aplica a tu repo (ej: ya tiene Vitest), márcalo como `[x] N/A —
 3. Copiar los archivos base desde el repo `openspec-constitution` (usar el tag de versión que vas a adoptar):
 
    ```bash
-   CONSTITUTION_VERSION="v2.0.0"
+   CONSTITUTION_VERSION="v2.1.0"
    REPO="https://raw.githubusercontent.com/juandpm/openspec-constitution/${CONSTITUTION_VERSION}"
 
    curl -O ${REPO}/templates/eslint.config.js
    curl -O ${REPO}/templates/.prettierrc
    curl -O ${REPO}/templates/vitest.config.js
 
+   mkdir -p src/config && curl -o src/config/logger.js ${REPO}/templates/logger.js
    mkdir -p tests && curl -o tests/setup.js ${REPO}/templates/tests-setup.js
    mkdir -p .github/workflows && curl -o .github/workflows/deploy-lambda.yml ${REPO}/templates/github-workflow.yml
    mkdir -p .claude/hooks && curl -o .claude/hooks/post-archive.js ${REPO}/templates/claude-hooks/post-archive.js
@@ -74,6 +75,7 @@ Si un paso no aplica a tu repo (ej: ya tiene Vitest), márcalo como `[x] N/A —
    | `templates/claude-hooks/settings.local.json` | `.claude/settings.local.json`          |
    | `templates/.gitattributes`                | `.gitattributes`                          |
    | `templates/CLAUDE.md`                     | `CLAUDE.md`                               |
+   | `templates/logger.js`                     | `src/config/logger.js`                    |
 
 #### Por qué importa
 
@@ -175,8 +177,8 @@ Igual que Paso 0.A más:
    ```markdown
    # Project: [nombre]
 
-   > Adhiere a openspec-constitution v2.0.0
-   > https://github.com/juandpm/openspec-constitution/tree/v2.0.0
+   > Adhiere a openspec-constitution v2.1.0
+   > https://github.com/juandpm/openspec-constitution/tree/v2.1.0
 
    ## Stack específico del repo
    - [Dependencias de producción con versión y uso — tabla]

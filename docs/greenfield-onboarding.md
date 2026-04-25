@@ -1,6 +1,6 @@
 # Greenfield Onboarding — OpenSpec en repos nuevos
 
-> openspec-constitution v2.0.0
+> openspec-constitution v2.1.0
 > Para repos legacy o ya onboardeados, usa `playbook-onboarding.md`.
 
 Este documento es el atajo para arrancar un repo nuevo con OpenSpec desde cero. No incluye la parte de diagnóstico de legacy porque no hay código previo que analizar.
@@ -33,7 +33,7 @@ npm install -D vitest @vitest/coverage-v8 eslint @eslint/js eslint-plugin-n esli
 ## Paso 2 — Copiar templates desde openspec-constitution
 
 ```bash
-CONSTITUTION_VERSION="v2.0.0"
+CONSTITUTION_VERSION="v2.1.0"
 REPO="https://raw.githubusercontent.com/juandpm/openspec-constitution/${CONSTITUTION_VERSION}"
 
 curl -O ${REPO}/templates/eslint.config.js
@@ -43,6 +43,7 @@ curl -O ${REPO}/templates/.env.example
 curl -O ${REPO}/templates/.gitattributes
 curl -o CLAUDE.md ${REPO}/templates/CLAUDE.md
 
+mkdir -p src/config && curl -o src/config/logger.js ${REPO}/templates/logger.js
 mkdir -p tests && curl -o tests/setup.js ${REPO}/templates/tests-setup.js
 mkdir -p .github/workflows && curl -o .github/workflows/deploy-lambda.yml ${REPO}/templates/github-workflow.yml
 mkdir -p .claude/hooks && curl -o .claude/hooks/post-archive.js ${REPO}/templates/claude-hooks/post-archive.js
@@ -64,8 +65,8 @@ Completar `openspec/project.md` con estructura mínima:
 ```markdown
 # Project: [nombre]
 
-> Adhiere a openspec-constitution v2.0.0
-> https://github.com/juandpm/openspec-constitution/tree/v2.0.0
+> Adhiere a openspec-constitution v2.1.0
+> https://github.com/juandpm/openspec-constitution/tree/v2.1.0
 
 ## Stack específico del repo
 - [Dependencias de producción con versión y uso]

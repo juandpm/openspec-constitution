@@ -1,5 +1,5 @@
 # .github/workflows/deploy-lambda.yml
-# Workflow constitucional — openspec-constitution v1.0.0
+# Workflow constitucional — openspec-constitution v2.1.0
 #
 # Jobs separados: `test` bloquea `deploy` via `needs: test`.
 # Sin este gate no hay CI útil.

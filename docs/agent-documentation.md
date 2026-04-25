@@ -1,6 +1,6 @@
 # Documentación para agentes — Reglas para CLAUDE.md y README.md
 
-> openspec-constitution v2.0.0
+> openspec-constitution v2.1.0
 > Este documento define cómo escribir `CLAUDE.md` y `README.md` para que un agente de IA
 > pueda usarlos sin interpretación ambigua y sin necesitar contexto verbal adicional.
 
