@@ -1,5 +1,5 @@
 # CLAUDE.md
-<!-- openspec-constitution v2.0.0 — template CLAUDE.md -->
+<!-- openspec-constitution v2.1.0 — template CLAUDE.md -->
 <!-- Copy to repo root. Replace all [TODO: ...] placeholders before closing Phase 8. -->
 <!-- This file is for AI agents. Keep it in English. For human onboarding, see README.md. -->
 
@@ -10,7 +10,7 @@
 - **Runtime**: Node.js 22, ES modules (`"type": "module"`)
 - **Execution environment**: [TODO: AWS Lambda / container / CLI / other]
 - **Main entry point**: [TODO: e.g. `src/index.js` exports `handler`]
-- **Adheres to**: openspec-constitution v2.0.0
+- **Adheres to**: openspec-constitution v2.1.0
 
 ## Development commands
 
@@ -46,6 +46,7 @@ handler (src/index.js)
 | `src/index.js` | Entry point, env validation, routing |
 | `src/handlers/` | Business logic orchestration |
 | `src/services/` | External clients (DB, S3, HTTP) — mocked in tests |
+| `src/config/logger.js` | pino logger singleton — imported by all modules that log |
 | `src/config/` | Static config, maps, constants |
 | `src/utils/` | Pure reusable functions |
 
@@ -59,6 +60,7 @@ Follows openspec-constitution v2.0.0. Repo-specific deviations:
 
 Key patterns in this repo:
 
+- Logger: import `logger` from `src/config/logger.js`. Use `logger.child({ requestId })` in Lambda handlers. Never use `console.log` in production code.
 - [TODO: e.g. "All DB operations go through `src/services/DatabaseService.js` singleton"]
 - [TODO: e.g. "Errors thrown as `new AppException(statusCode, message)` from `src/utils/errors.js`"]
 

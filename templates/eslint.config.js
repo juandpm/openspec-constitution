@@ -1,5 +1,5 @@
 // eslint.config.js
-// Configuración constitucional — openspec-constitution v1.0.0
+// Configuración constitucional — openspec-constitution v2.1.0
 //
 // Perfil: Node.js ES modules, flat config (ESLint 9+)
 // Integración con Prettier vía eslint-config-prettier (desactiva reglas conflictivas).
@@ -42,7 +42,7 @@ export default [
       "no-var": "error",
       "prefer-const": "error",
       eqeqeq: ["error", "always"],
-      "no-console": "off", // console.log permitido hasta decisión de logger estructurado
+      "no-console": "warn", // usar logger de src/config/logger.js en lugar de console
 
       // Promesas — la constitución exige async/await
       "no-async-promise-executor": "error",
@@ -60,6 +60,7 @@ export default [
     rules: {
       "no-unused-vars": "off",
       "require-await": "off",
+      "no-console": "off",
     },
   },
   {

@@ -7,6 +7,29 @@ y el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [2.1.0] — 2026-04-25
+
+### Added
+
+- **`templates/logger.js`**: singleton de pino listo para copiar a `src/config/logger.js`. Produce JSON estructurado en producción (CloudWatch compatible) y output legible con pino-pretty en `NODE_ENV=development`. Incluye redacción automática de campos sensibles (`password`, `token`, `secret`, `authorization`, `apiKey`, `privateKey`) y campo `service` en todos los logs.
+- **`docs/logging.md`**: guía completa de logging estructurado: instalación, niveles de uso, child loggers por request (Lambda), testing con vi.mock(), variables de entorno, consultas CloudWatch Logs Insights y comportamiento del ESLint.
+- **`LOG_LEVEL`** en `templates/.env.example` con comentario de valores válidos.
+- **Sección Logger** en `templates/CLAUDE.md` (Code conventions y Architecture) para que los agentes de IA conozcan el patrón en cada repo.
+
+### Changed
+
+- **`constitution.md` §5 Logging**: reemplaza la política provisional de `console.log` por la decisión constitucional de pino. Documenta niveles, singleton, child logger, redacción de sensibles y deprecación de console en producción.
+- **`constitution.md` §6 Errores**: referencias a `console.error` reemplazadas por `logger.error`.
+- **`constitution.md` Apéndice**: elimina "Logging estructurado" de la lista de deuda técnica — ya es decisión constitucional.
+- **`templates/eslint.config.js`**: `"no-console": "off"` → `"no-console": "warn"` en producción; override `"no-console": "off"` en `tests/**` y `**/*.test.js` para no interferir con la suite.
+- **`templates/CLAUDE.md`**: versión header actualizada a v2.1.0; fila `src/config/logger.js` añadida a la tabla de módulos; nota de logger añadida en Code conventions.
+
+### Compatibilidad
+
+Los repos en v2.0.0 **no se rompen**. La migración a v2.1.0 se hace con el change OpenSpec `upgrade-constitution-v2.0.0-to-v2.1.0` ejecutando el prompt de migración incluido en `INSTALL.md` o en el prompt generado para cada repo.
+
+---
+
 ## [2.0.0] — 2026-04-23
 
 ### Added

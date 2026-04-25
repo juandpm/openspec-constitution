@@ -1,6 +1,6 @@
 # Constitución técnica — Proyectos Node.js
 
-> Versión: 2.0.0
+> Versión: 2.1.0
 > Alcance: todos los repositorios Node.js del equipo (Lambdas, servicios, CLIs, librerías internas).
 > Este documento fija decisiones transversales que **no se rediscuten por repo**.
 > Si un repo necesita desviarse de algún punto, debe documentarlo en su `openspec/project.md`
@@ -119,9 +119,17 @@ if (missing.length > 0) {
 
 ### Logging
 
-- `console.log`, `console.error`, `console.warn` son aceptables hasta que se decida plataforma de observabilidad estructurada (pino/winston). Esa decisión es por-repo.
-- `console.error` para errores internos con detalle completo (van a CloudWatch).
-- Nunca loguear secrets, tokens, claves privadas ni payloads cifrados.
+- **Logger canónico: `pino`**. Se instala como dependencia de producción (`npm install pino`).
+- `pino-pretty` como devDependency para output legible en desarrollo (`npm install --save-dev pino-pretty`).
+- El logger vive en `src/config/logger.js` como **singleton de módulo**. Usar `templates/logger.js` como base. Ver `docs/logging.md` para la guía completa.
+- Niveles de uso:
+  - `logger.info()` — eventos de negocio normales (request recibida, operación completada).
+  - `logger.warn()` — condiciones anómalas no fatales (fallback usado, retry, recurso no encontrado).
+  - `logger.error()` — errores internos con detalle completo (van a CloudWatch).
+  - `logger.debug()` — solo desarrollo (`LOG_LEVEL=debug`); inactivo en producción por defecto.
+- `console.log`, `console.error`, `console.warn` están **deprecados** en código de producción. ESLint los reporta como `warn` para guiar la migración.
+- **Nunca loguear**: secrets, tokens, claves privadas, payloads cifrados. El logger tiene redacción automática de campos comunes.
+- Para contexto por request en Lambda: `const reqLogger = logger.child({ requestId: context.awsRequestId })`.
 
 ### Idioma
 
@@ -134,8 +142,8 @@ if (missing.length > 0) {
 - Errores de dominio se modelan como clases que extienden `Error` con un `statusCode` numérico.
 - Patrón canónico: `FlowEndpointException` del repo `flows` — `class FlowEndpointException extends Error { constructor(statusCode, message) {...} }`.
 - **Nunca exponer al usuario**: nombres de claves de base de datos, paths internos, stack traces, estructura del error original.
-- `console.error` con detalle interno → respuesta al usuario genérica sin filtrar internals.
-- Errores de red (DB, S3) **no deben ser fatales silenciosos**: se loguean con `console.error` y se devuelve una respuesta válida vacía o un error de dominio explícito.
+- `logger.error` con detalle interno → respuesta al usuario genérica sin filtrar internals.
+- Errores de red (DB, S3) **no deben ser fatales silenciosos**: se loguean con `logger.error` y se devuelve una respuesta válida vacía o un error de dominio explícito.
 
 ## 7. Nomenclatura
 
@@ -203,7 +211,7 @@ Archivo de contexto para agentes de IA (Claude Code y equivalentes). Debe conten
 7. **CI/CD** — qué hace el pipeline y cuándo se activa el deploy.
 8. **Non-obvious details** — gotchas, decisiones contraintuitivas, workarounds documentados.
 
-Usar `templates/CLAUDE.md` como base. Ver `docs/agent-documentation.md` para reglas de redacción.
+Usar `templates/CLAUDE.md` como base. Ver `docs/agent-documentation.md` para reglas de redacción. El template ya referencia v2.1.0.
 
 ### `.gitattributes` (obligatorio)
 
@@ -236,7 +244,6 @@ Usar `templates/README.md` como base.
 
 Los siguientes temas aparecen recurrentemente y **no tienen decisión constitucional aún**. Cada repo los trata según su criterio hasta que se resuelva globalmente:
 
-- **Logging estructurado** (pino, winston, CloudWatch Logs Insights): pendiente de decisión de plataforma.
 - **Retry logic en clientes externos**: depende de SLA de cada servicio.
 - **Observabilidad** (métricas custom, trazas distribuidas): pendiente de herramienta.
 - **TypeScript**: adopción gradual, no obligatoria.
