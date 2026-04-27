@@ -1,5 +1,5 @@
 # CLAUDE.md
-<!-- openspec-constitution v2.1.0 — template CLAUDE.md -->
+<!-- openspec-constitution v2.2.0 — template CLAUDE.md -->
 <!-- Copy to repo root. Replace all [TODO: ...] placeholders before closing Phase 8. -->
 <!-- This file is for AI agents. Keep it in English. For human onboarding, see README.md. -->
 
@@ -10,7 +10,7 @@
 - **Runtime**: Node.js 22, ES modules (`"type": "module"`)
 - **Execution environment**: [TODO: AWS Lambda / container / CLI / other]
 - **Main entry point**: [TODO: e.g. `src/index.js` exports `handler`]
-- **Adheres to**: openspec-constitution v2.1.0
+- **Adheres to**: openspec-constitution v2.2.0
 
 ## Development commands
 
@@ -109,3 +109,36 @@ The `test` job uploads a coverage artifact (7-day retention). Deploy only runs i
 - [TODO: document gotchas, counterintuitive decisions, known workarounds]
 - [TODO: e.g. "The Lambda timeout is set to 29s — 1s less than API Gateway's 30s limit to ensure a clean error response"]
 - [TODO: e.g. "Package X is pinned to v2.3.1 because v2.4.0 broke ESM imports — see issue #42"]
+
+## Position in ecosystem
+
+Reference: [Solution Station SPA — Ecosystem Architecture](https://github.com/juandpm/openspec-constitution/blob/main/docs/ecosystem.md)
+
+```mermaid
+flowchart LR
+    %% Replace nodes with the actual upstream/downstream for THIS repo.
+    %% See docs/ecosystem.md for the complete architecture diagram.
+
+    UPSTREAM_1["[TODO: upstream source]\ne.g. SQS: webhook-to-messages-queue.fifo"]
+    UPSTREAM_2["[TODO: upstream source 2 — delete if none]\ne.g. API Gateway: POST /webhook"]
+
+    THIS["[TODO: lambda-name]\n★ THIS REPO"]
+
+    DOWNSTREAM_1["[TODO: downstream target]\ne.g. SQS: notifications-queue"]
+    DOWNSTREAM_2["[TODO: downstream target 2 — delete if none]\ne.g. DocumentDB: docdb-transactions"]
+
+    UPSTREAM_1 -->|trigger| THIS
+    UPSTREAM_2 -->|HTTP| THIS
+    THIS -->|enqueue| DOWNSTREAM_1
+    THIS -->|read/write| DOWNSTREAM_2
+```
+
+**Upstream** (what triggers or calls this service):
+- `[TODO: e.g. SQS: webhook-to-messages-queue.fifo]`
+- `[TODO: e.g. API Gateway: POST /webhook (pyfcs0fzs4)]`
+
+**Downstream** (what this service writes to or calls):
+- `[TODO: e.g. SQS: notifications-queue]`
+- `[TODO: e.g. DocumentDB: docdb-transactions]`
+
+**AWS Lambda function name**: `[TODO: exact function name as deployed in AWS]`

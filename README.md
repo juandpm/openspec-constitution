@@ -16,6 +16,7 @@ No es código. Son documentos y plantillas. Cada proyecto Node.js del equipo ref
 - **Tú, escribiendo tests con Vitest**: `vitest-patterns.md` tiene los trucos no obvios.
 - **Tú, generando propuestas de fase en OpenSpec**: `phase-templates.md` tiene las plantillas.
 - **Tú, configurando logging estructurado**: `docs/logging.md` tiene la guía completa de pino.
+- **Tú, entendiendo cómo encajan todos los repos**: `docs/ecosystem.md` tiene el diagrama completo de arquitectura con todos los repositorios, colas SQS, API Gateway, storage y servicios externos.
 
 ---
 
@@ -27,7 +28,7 @@ openspec-constitution/
 ├── VERSION                                ← versión actual (SemVer)
 ├── CHANGELOG.md                           ← historial de cambios
 │
-├── constitution.md                        ← decisiones técnicas no negociables (11 secciones)
+├── constitution.md                        ← decisiones técnicas no negociables (12 secciones)
 ├── playbook-onboarding.md                 ← paso a paso para adoptar OpenSpec (legacy y greenfield)
 ├── phase-templates.md                     ← plantillas de proposals y tasks por fase (8 fases)
 ├── vitest-patterns.md                     ← patrones críticos de testing con ESM (7 patrones)
@@ -36,7 +37,8 @@ openspec-constitution/
 │   ├── structure.md                       ← estructura de directorios recomendada
 │   ├── greenfield-onboarding.md           ← flujo condensado para repos nuevos
 │   ├── agent-documentation.md            ← reglas para escribir CLAUDE.md y README.md
-│   └── logging.md                        ← nuevo en v2.1.0: guía de logging con pino
+│   ├── logging.md                        ← nuevo en v2.1.0: guía de logging con pino
+│   └── ecosystem.md                      ← nuevo en v2.2.0: arquitectura completa del ecosistema
 │
 └── templates/                             ← archivos de config listos para copiar
     ├── eslint.config.js
@@ -63,8 +65,8 @@ openspec-constitution/
 En el `openspec/project.md` de tu proyecto, la primera línea debe ser:
 
 ```markdown
-> Adhiere a openspec-constitution v2.1.0
-> https://github.com/juandpm/openspec-constitution/tree/v2.1.0
+> Adhiere a openspec-constitution v2.2.0
+> https://github.com/juandpm/openspec-constitution/tree/v2.2.0
 ```
 
 Siempre referencia un **tag de versión**, no `main`. Si la constitución evoluciona después, tu proyecto sigue apuntando a la versión con la que fue construido.
@@ -74,7 +76,7 @@ Siempre referencia un **tag de versión**, no `main`. Si la constitución evoluc
 El `playbook-onboarding.md` indica qué archivos copiar al iniciar un repo. Resumen:
 
 ```bash
-CONSTITUTION_VERSION="v2.1.0"
+CONSTITUTION_VERSION="v2.2.0"
 REPO="https://raw.githubusercontent.com/juandpm/openspec-constitution/${CONSTITUTION_VERSION}"
 
 curl -O ${REPO}/templates/eslint.config.js
@@ -120,6 +122,15 @@ La versión actual está en el archivo `VERSION` y se refleja en tags `vX.Y.Z`. 
 | **PATCH** (`v1.0.1`) | Clarificaciones, typos, ejemplos adicionales. Repos existentes no necesitan acción. |
 
 Cada cambio se registra en `CHANGELOG.md`.
+
+### Qué cambió en v2.2.0
+
+- **`docs/ecosystem.md`** — Visión completa de la arquitectura de Solution Station SPA: diagrama Mermaid de todos los repos, colas SQS, API Gateway, storage y servicios externos.
+- **Sección 9 en `templates/CLAUDE.md`** — Mini-diagrama Mermaid con la posición del repo en el ecosistema (upstream + downstream). Obligatoria antes de cerrar Fase 8.
+- **Sección 12 en `constitution.md`** — Convenciones de nomenclatura para recursos AWS y criterios de cuándo crear una nueva Lambda vs extender una existente.
+- **Fase 8 actualizada** — Tareas 8.7 y 8.8 para completar el mini-diagrama de ecosistema.
+
+Los repos en `v2.1.x` **no se rompen**. Migrar a v2.2.0 es un change OpenSpec `upgrade-constitution-v2.1-to-v2.2`.
 
 ### Qué cambió en v2.1.0
 

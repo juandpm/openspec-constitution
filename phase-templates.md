@@ -531,16 +531,26 @@ arranca con contexto completo sin explicación manual.
 ```markdown
 - [ ] 8.1 Crear/actualizar `CLAUDE.md` desde `templates/CLAUDE.md`
 - [ ] 8.2 Completar todos los placeholders `[TODO: ...]` con info real del repo
+         (secciones 1–8 del CLAUDE.md)
 - [ ] 8.3 Verificar que `README.md` tiene las 6 secciones mínimas
          (Stack, Instalación, Uso, Scripts, Tests y cobertura, Deploy)
 - [ ] 8.4 Crear `.gitattributes` desde `templates/.gitattributes`
 - [ ] 8.5 Commit → push → verificar en GitHub que Linguist clasifica el lenguaje correctamente
 - [ ] 8.6 Si Linguist sigue mal: ajustar `.gitattributes` (añadir más rutas) y repetir 8.5
+- [ ] 8.7 Completar sección 9 "Position in ecosystem" en `CLAUDE.md`:
+         - Mini-diagrama Mermaid con upstream y downstream reales de este repo
+         - Lista de upstream (qué lo dispara / llama)
+         - Lista de downstream (a qué escribe o llama)
+         - Nombre exacto de la función Lambda en AWS
+         - Referencia a `docs/ecosystem.md` de openspec-constitution
+- [ ] 8.8 Verificar que el mini-diagrama de sección 9 es consistente con `docs/ecosystem.md`
+         (mismo nombre de colas SQS, mismo recurso de API Gateway, mismo nombre de DB)
 ```
 
 ### Criterios de done
 
-- `CLAUDE.md` existe con las 8 secciones, sin `[TODO:]` pendientes.
+- `CLAUDE.md` existe con las 9 secciones, sin `[TODO:]` pendientes.
+- Sección 9 tiene mini-diagrama Mermaid con upstream/downstream reales (no placeholders).
 - `README.md` tiene las 6 secciones mínimas en español.
 - `.gitattributes` excluye al menos `coverage/` del cálculo de Linguist.
 - GitHub muestra el lenguaje principal correcto (JavaScript, TypeScript, etc. — no HTML ni CSS).
@@ -560,5 +570,6 @@ Antes de hacer `/opsx:archive phase-N-...`:
 [ ] Smoke test manual del happy path (fases 1, 3, 4)
 [ ] Cobertura verificada (fases 5, 6, 7)
 [ ] CLAUDE.md y .gitattributes sin TODO pendientes (fase 8)
+[ ] Sección 9 de CLAUDE.md con mini-diagrama de ecosistema completo (fase 8)
 [ ] Proposal refleja lo que realmente se hizo (editar si cambió en camino)
 ```

@@ -7,6 +7,25 @@ y el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [2.2.0] — 2026-04-27
+
+### Added
+
+- **`docs/ecosystem.md`** — Visión completa de la arquitectura de Solution Station SPA: diagrama Mermaid de todos los repositorios, colas SQS, rutas de API Gateway, buckets S3, base de datos y servicios externos. Fuente de verdad para que cada repo sepa dónde está parado en el ecosistema.
+- **Sección 9 en `templates/CLAUDE.md`** — "Position in ecosystem": mini-diagrama Mermaid con upstream/downstream específico del repo, referencia a `docs/ecosystem.md`. Obligatoria antes de cerrar Fase 8.
+- **Sección 12 en `constitution.md`** — Ecosistema y convenciones de recursos AWS: nomenclatura para Lambdas, colas SQS, rutas de API Gateway, buckets S3 y DocumentDB; criterios de cuándo crear una nueva Lambda vs extender una existente.
+- **Fase 8 actualizada en `phase-templates.md`** — Tareas 8.7 y 8.8: mini-diagrama de posición en ecosistema y declaración explícita de upstream/downstream en `CLAUDE.md`.
+
+### Changed
+
+- **`README.md`** — Árbol de repo actualizado con `docs/ecosystem.md`; sección "Para quién es" añade referencia al documento de arquitectura.
+
+### Compatibilidad
+
+Los repos en `v2.1.x` **no se rompen**. Migrar a v2.2.0 es un change OpenSpec `upgrade-constitution-v2.1-to-v2.2`: añadir sección 9 al `CLAUDE.md` existente con el mini-diagrama del repo y referenciar `docs/ecosystem.md`.
+
+---
+
 ## [2.1.1] — 2026-04-25
 
 ### Fixed

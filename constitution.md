@@ -1,6 +1,6 @@
 # Constitución técnica — Proyectos Node.js
 
-> Versión: 2.1.0
+> Versión: 2.2.0
 > Alcance: todos los repositorios Node.js del equipo (Lambdas, servicios, CLIs, librerías internas).
 > Este documento fija decisiones transversales que **no se rediscuten por repo**.
 > Si un repo necesita desviarse de algún punto, debe documentarlo en su `openspec/project.md`
@@ -181,7 +181,7 @@ Esta estructura no es obligatoria pero sí **recomendada por defecto**. Desviars
 - El primer change propuesto siempre es `document-current-project`.
 - El `project.md` de cada repo debe referenciar esta constitución por versión en su primera línea:
   ```markdown
-  > Adhiere a openspec-constitution v2.1.0
+  > Adhiere a openspec-constitution v2.2.0
   ```
 - Las fases de mejora técnica siguen el orden canónico documentado en `playbook-onboarding.md`.
 - Tras cada `/opsx:archive`, el hook `post-archive.js` gatilla una valoración automática del proyecto.
@@ -211,7 +211,7 @@ Archivo de contexto para agentes de IA (Claude Code y equivalentes). Debe conten
 7. **CI/CD** — qué hace el pipeline y cuándo se activa el deploy.
 8. **Non-obvious details** — gotchas, decisiones contraintuitivas, workarounds documentados.
 
-Usar `templates/CLAUDE.md` como base. Ver `docs/agent-documentation.md` para reglas de redacción. El template ya referencia v2.1.0.
+Usar `templates/CLAUDE.md` como base. Ver `docs/agent-documentation.md` para reglas de redacción. El template ya referencia v2.2.0.
 
 ### `.gitattributes` (obligatorio)
 
@@ -237,6 +237,46 @@ Orientado a onboarding humano rápido. Debe tener estas 6 secciones mínimas:
 6. **Deploy** — proceso, entornos, secrets necesarios.
 
 Usar `templates/README.md` como base.
+
+## 12. Ecosistema y convenciones de recursos AWS
+
+### Documentación de posición en el ecosistema
+
+Todo repositorio debe declarar su posición en el ecosistema en la **sección 9 de su `CLAUDE.md`**. Esta declaración incluye:
+
+- Un mini-diagrama Mermaid mostrando upstream (qué lo dispara o llama) y downstream (a qué escribe o llama).
+- Referencia a `docs/ecosystem.md` en `openspec-constitution` para el mapa completo.
+- El nombre exacto de la función Lambda tal como está desplegada en AWS.
+
+Ver `templates/CLAUDE.md` sección 9 y `docs/ecosystem.md` para la guía y el diagrama completo.
+
+### Convenciones de nomenclatura para recursos AWS
+
+| Recurso | Patrón | Ejemplos |
+|---|---|---|
+| Lambda function | `lambda-{dominio}[-{variante}]` | `lambda-odoo`, `lambda-odoo-purchase` |
+| SQS standard | `{dominio}-queue` | `notifications-queue`, `payments-queue` |
+| SQS FIFO | `{dominio}-queue.fifo` | `odoo-queue.fifo`, `sii-queue.fifo` |
+| SQS FIFO con variante | `{dominio}-queue-{variante}.fifo` | `odoo-purchse-queue-sv.fifo` |
+| S3 bucket (assets públicos) | `{tipo}.{dominio}.com` | `assets.solutionstationspa.com` |
+| S3 bucket (uso interno) | `{dominio}-{propósito}` | `solutionstation-images` |
+| API Gateway resource | `/{servicio}` en kebab-case | `/webhook`, `/payments` |
+| DocumentDB cluster | `docdb-{propósito}` | `docdb-transactions` |
+
+> **Nombres históricos con typos**: si un recurso ya existe en AWS con un error tipográfico (ej. `odoo-purchse-queue`), el nombre **no se corrige** sin migración coordinada de todos los productores y consumidores. Se documenta el typo en `CLAUDE.md` bajo "Non-obvious details".
+
+### Cuándo crear una nueva Lambda vs extender una existente
+
+**Crear una Lambda nueva** cuando:
+- El trigger es diferente al de las Lambdas existentes del mismo dominio.
+- La responsabilidad es claramente distinta (pagos ≠ notificaciones ≠ transferencias).
+- Se necesita escalar, monitorear o desplegar de forma independiente.
+- La nueva lógica no comparte downstream con ninguna Lambda existente.
+
+**Extender una Lambda existente** cuando:
+- Se agrega una nueva ruta al mismo recurso de API Gateway que ya maneja esa Lambda.
+- La nueva lógica comparte el mismo downstream (misma DB, misma cola SQS).
+- Es una variante del mismo dominio con lógica casi idéntica (usar una cola SQS separada como discriminador en vez de una Lambda nueva).
 
 ---
 

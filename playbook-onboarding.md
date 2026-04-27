@@ -1,6 +1,6 @@
 # Playbook — Onboarding de OpenSpec (legacy y greenfield)
 
-> Versión: 2.1.0
+> Versión: 2.2.0
 > Aplicable a: cualquier repositorio Node.js que vaya a adoptar OpenSpec.
 > Prerequisito: leer `constitution.md` antes de empezar.
 
