@@ -1,5 +1,5 @@
 // eslint.config.js
-// Configuración constitucional — openspec-constitution v2.2.0
+// Configuración constitucional — openspec-constitution v2.2.3
 //
 // Perfil: Node.js ES modules, flat config (ESLint 9+)
 // Integración con Prettier vía eslint-config-prettier (desactiva reglas conflictivas).

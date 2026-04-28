@@ -1,6 +1,6 @@
 # Playbook — Onboarding de OpenSpec (legacy y greenfield)
 
-> Versión: 2.2.1
+> Versión: 2.2.3
 > Aplicable a: cualquier repositorio Node.js que vaya a adoptar OpenSpec.
 > Prerequisito: leer `constitution.md` antes de empezar.
 
@@ -12,7 +12,7 @@
 |---|---|
 | **Repo legacy** — código existente sin OpenSpec | Seguir este playbook completo desde el Paso 0.A |
 | **Repo greenfield** — repo nuevo, aún vacío | Ir al Paso 0.B; luego seguir Paso 1 en adelante. Ver también `docs/greenfield-onboarding.md` para el flujo condensado |
-| **Repo ya onboardeado** — tiene OpenSpec, quiere migrar a v2.2.0 | Ejecutar change `upgrade-constitution-vX-to-v2.2.0`: actualizar referencia en `project.md`, copiar templates nuevos |
+| **Repo ya onboardeado** — tiene OpenSpec, quiere migrar a v2.2.3 | Ejecutar change `upgrade-constitution-vX-to-v2.2.3`: actualizar referencia en `project.md`, copiar templates nuevos |
 
 ---
 
@@ -47,7 +47,7 @@ Si un paso no aplica a tu repo (ej: ya tiene Vitest), márcalo como `[x] N/A —
 3. Copiar los archivos base desde el repo `openspec-constitution` (usar el tag de versión que vas a adoptar):
 
    ```bash
-   CONSTITUTION_VERSION="v2.2.0"
+   CONSTITUTION_VERSION="v2.2.3"
    REPO="https://raw.githubusercontent.com/juandpm/openspec-constitution/${CONSTITUTION_VERSION}"
 
    curl -O ${REPO}/templates/eslint.config.js
@@ -177,8 +177,8 @@ Igual que Paso 0.A más:
    ```markdown
    # Project: [nombre]
 
-   > Adhiere a openspec-constitution v2.2.0
-   > https://github.com/juandpm/openspec-constitution/tree/v2.2.0
+   > Adhiere a openspec-constitution v2.2.3
+   > https://github.com/juandpm/openspec-constitution/tree/v2.2.3
 
    ## Stack específico del repo
    - [Dependencias de producción con versión y uso — tabla]

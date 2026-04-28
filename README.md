@@ -17,7 +17,7 @@ No es código. Son documentos y plantillas. Cada proyecto Node.js del equipo ref
 - **Tú, generando propuestas de fase en OpenSpec**: `phase-templates.md` tiene las plantillas.
 - **Tú, configurando logging estructurado**: `docs/logging.md` tiene la guía completa de pino.
 - **Tú, entendiendo cómo encajan todos los repos**: `docs/ecosystem.md` tiene el diagrama completo de arquitectura con todos los repositorios, colas SQS, API Gateway, storage y servicios externos.
-- **Tú, migrando un repo ya onboardeado a v2.2.0**: `prompt-update.md` tiene el prompt listo para pegar en Claude Code.
+- **Tú, migrando un repo ya onboardeado a v2.2.x o anterior**: `prompt-update.md` tiene el prompt listo para pegar en Claude Code.
 
 ---
 
@@ -34,7 +34,7 @@ openspec-constitution/
 ├── phase-templates.md                     ← plantillas de proposals y tasks por fase (8 fases)
 ├── vitest-patterns.md                     ← patrones críticos de testing con ESM (7 patrones)
 ├── prompt-onboarding.md                   ← prompt para Claude Code: onboarding de repo nuevo o legacy
-├── prompt-update.md                       ← prompt para Claude Code: migrar repo ya onboardeado a v2.2.0
+├── prompt-update.md                       ← prompt para Claude Code: migrar repo ya onboardeado a v2.2.3
 │
 ├── docs/
 │   ├── structure.md                       ← estructura de directorios recomendada
@@ -68,8 +68,8 @@ openspec-constitution/
 En el `openspec/project.md` de tu proyecto, la primera línea debe ser:
 
 ```markdown
-> Adhiere a openspec-constitution v2.2.0
-> https://github.com/juandpm/openspec-constitution/tree/v2.2.0
+> Adhiere a openspec-constitution v2.2.3
+> https://github.com/juandpm/openspec-constitution/tree/v2.2.3
 ```
 
 Siempre referencia un **tag de versión**, no `main`. Si la constitución evoluciona después, tu proyecto sigue apuntando a la versión con la que fue construido.
@@ -79,7 +79,7 @@ Siempre referencia un **tag de versión**, no `main`. Si la constitución evoluc
 El `playbook-onboarding.md` indica qué archivos copiar al iniciar un repo. Resumen:
 
 ```bash
-CONSTITUTION_VERSION="v2.2.0"
+CONSTITUTION_VERSION="v2.2.3"
 REPO="https://raw.githubusercontent.com/juandpm/openspec-constitution/${CONSTITUTION_VERSION}"
 
 curl -O ${REPO}/templates/eslint.config.js

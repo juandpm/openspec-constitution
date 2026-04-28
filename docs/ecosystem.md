@@ -1,6 +1,6 @@
 # Solution Station SPA — Ecosystem Architecture
 
-> **Constitution version**: v2.2.0
+> **Constitution version**: v2.2.3
 > **AWS Account**: `717279716506` · **Region**: `us-east-1`
 > **Last updated**: 2026-04-27
 

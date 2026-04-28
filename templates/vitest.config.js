@@ -1,5 +1,5 @@
 // vitest.config.js
-// Configuración constitucional — openspec-constitution v2.2.0
+// Configuración constitucional — openspec-constitution v2.2.3
 //
 // - environment: "node" porque nuestros proyectos son serverless/backend.
 // - setupFiles: inyecta env vars antes de que los módulos sean evaluados

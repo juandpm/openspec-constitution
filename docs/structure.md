@@ -1,6 +1,6 @@
 # Estructura de directorios recomendada
 
-> Versión: 1.1.0
+> Versión: 2.2.3
 > Esta estructura es una recomendación por defecto para proyectos serverless Node.js
 > que adopten `openspec-constitution`. Desviaciones requieren justificación en
 > `openspec/project.md`, sección "Desviaciones de la constitución".

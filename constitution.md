@@ -1,6 +1,6 @@
 # Constitución técnica — Proyectos Node.js
 
-> Versión: 2.2.1
+> Versión: 2.2.3
 > Alcance: todos los repositorios Node.js del equipo (Lambdas, servicios, CLIs, librerías internas).
 > Este documento fija decisiones transversales que **no se rediscuten por repo**.
 > Si un repo necesita desviarse de algún punto, debe documentarlo en su `openspec/project.md`
@@ -181,7 +181,7 @@ Esta estructura no es obligatoria pero sí **recomendada por defecto**. Desviars
 - El primer change propuesto siempre es `document-current-project`.
 - El `project.md` de cada repo debe referenciar esta constitución por versión en su primera línea:
   ```markdown
-  > Adhiere a openspec-constitution v2.2.0
+  > Adhiere a openspec-constitution v2.2.3
   ```
 - Las fases de mejora técnica siguen el orden canónico documentado en `playbook-onboarding.md`.
 - Tras cada `/opsx:archive`, el hook `post-archive.js` gatilla una valoración automática del proyecto.

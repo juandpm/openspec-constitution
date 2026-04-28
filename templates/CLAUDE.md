@@ -1,5 +1,5 @@
 # CLAUDE.md
-<!-- openspec-constitution v2.2.0 — template CLAUDE.md -->
+<!-- openspec-constitution v2.2.3 — template CLAUDE.md -->
 <!-- Copy to repo root. Replace all [TODO: ...] placeholders before closing Phase 8. -->
 <!-- This file is for AI agents. Keep it in English. For human onboarding, see README.md. -->
 
@@ -10,7 +10,7 @@
 - **Runtime**: Node.js 22, ES modules (`"type": "module"`)
 - **Execution environment**: [TODO: AWS Lambda / container / CLI / other]
 - **Main entry point**: [TODO: e.g. `src/index.js` exports `handler`]
-- **Adheres to**: openspec-constitution v2.2.0
+- **Adheres to**: openspec-constitution v2.2.3
 
 ## Development commands
 
@@ -54,7 +54,7 @@ handler (src/index.js)
 
 ## Code conventions
 
-Follows openspec-constitution v2.2.0. Repo-specific deviations:
+Follows openspec-constitution v2.2.3. Repo-specific deviations:
 
 - [TODO: list any local deviations documented in openspec/project.md, or write "None."]
 

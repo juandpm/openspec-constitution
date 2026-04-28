@@ -1,6 +1,6 @@
 # Patrones críticos de Vitest con ES modules
 
-> Versión: 2.0.0
+> Versión: 2.2.3
 > Uso: consultar durante las fases 5, 6 y 7 cuando surjan problemas de mocking,
 > env vars o cobertura.
 

@@ -7,6 +7,20 @@ y el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [2.2.3] — 2026-04-28
+
+### Fixed
+
+- **Limpieza de consistencia de versión (todos los archivos)**: todos los headers, URLs de templates y citas de versión en documentos y plantillas apuntaban a versiones distintas (`v2.2.0`, `v2.2.1`, `v2.0.0`, `v1.1.0`). Ahora todos referencian `v2.2.3` de forma uniforme. Archivos corregidos: `constitution.md`, `playbook-onboarding.md`, `phase-templates.md`, `vitest-patterns.md`, `docs/structure.md`, `docs/greenfield-onboarding.md`, `docs/agent-documentation.md`, `docs/logging.md`, `docs/ecosystem.md`, `templates/CLAUDE.md`, `templates/README.md`, `templates/eslint.config.js`, `templates/github-workflow.yml`, `templates/logger.js`, `templates/vitest.config.js`, `templates/.env.example`, `templates/.gitattributes`, `INSTALL.md`, `README.md`, `prompt-onboarding.md`.
+- **`prompt-update.md`**: reescrito para apuntar a `v2.2.3` como destino; RUTA D ahora cubre `v2.2.x` genéricamente (v2.2.0, v2.2.1, v2.2.2 → v2.2.3); nombre de change actualizado a `upgrade-constitution-v2.2-to-v2.2.3`; tablas de rutas y tiempos actualizadas.
+- **`INSTALL.md` §7**: checklist de archivos a actualizar antes de cada release, documentando la regla de consistencia para evitar que las versiones futuras queden desfasadas.
+
+### Compatibilidad
+
+Sin cambios funcionales. Solo corrección de headers y referencias de versión. Repos existentes no necesitan acción.
+
+---
+
 ## [2.2.2] — 2026-04-28
 
 ### Fixed
