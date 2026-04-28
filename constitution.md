@@ -1,6 +1,6 @@
 # Constitución técnica — Proyectos Node.js
 
-> Versión: 2.2.0
+> Versión: 2.2.1
 > Alcance: todos los repositorios Node.js del equipo (Lambdas, servicios, CLIs, librerías internas).
 > Este documento fija decisiones transversales que **no se rediscuten por repo**.
 > Si un repo necesita desviarse de algún punto, debe documentarlo en su `openspec/project.md`
@@ -200,7 +200,7 @@ Todo repo constitucional debe tener los siguientes tres artefactos en la raíz. 
 
 ### `CLAUDE.md` (obligatorio, en inglés)
 
-Archivo de contexto para agentes de IA (Claude Code y equivalentes). Debe contener exactamente estas 8 secciones, sin placeholders `[TODO:]` pendientes:
+Archivo de contexto para agentes de IA (Claude Code y equivalentes). Debe contener exactamente estas 9 secciones, sin placeholders `[TODO:]` pendientes:
 
 1. **Project overview** — qué hace el repo, stack, entorno de ejecución.
 2. **Development commands** — comandos con explicación de cuándo usarlos.
@@ -210,6 +210,7 @@ Archivo de contexto para agentes de IA (Claude Code y equivalentes). Debe conten
 6. **Secrets and environment** — variables requeridas y cómo obtenerlas (sin valores reales).
 7. **CI/CD** — qué hace el pipeline y cuándo se activa el deploy.
 8. **Non-obvious details** — gotchas, decisiones contraintuitivas, workarounds documentados.
+9. **Position in ecosystem** — mini-diagrama Mermaid con upstream/downstream reales del repo. Ver §12 y `docs/ecosystem.md`.
 
 Usar `templates/CLAUDE.md` como base. Ver `docs/agent-documentation.md` para reglas de redacción. El template ya referencia v2.2.0.
 

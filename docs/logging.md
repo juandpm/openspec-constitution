@@ -1,6 +1,6 @@
 # Logging estructurado con pino
 
-> openspec-constitution v2.1.0
+> openspec-constitution v2.2.0
 
 ---
 

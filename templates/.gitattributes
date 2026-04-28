@@ -1,4 +1,4 @@
-# openspec-constitution v2.0.0 — template .gitattributes
+# openspec-constitution v2.2.0 — template .gitattributes
 # Copiar a la raíz del repo. Ajustar si el repo no usa alguna de estas carpetas.
 
 # Excluir generated/build/vendor del cálculo de GitHub Linguist

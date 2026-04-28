@@ -7,6 +7,25 @@ y el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [2.2.1] — 2026-04-28
+
+### Fixed
+
+- **Referencias de versión en todos los documentos y templates**: `playbook-onboarding.md`, `phase-templates.md`, `docs/greenfield-onboarding.md`, `docs/agent-documentation.md`, `docs/logging.md`, `INSTALL.md`, `templates/CLAUDE.md`, `templates/README.md`, `templates/.env.example`, `templates/.gitattributes`, `templates/eslint.config.js`, `templates/github-workflow.yml`, `templates/vitest.config.js`, `templates/logger.js` ahora referencian `v2.2.0` (varios quedaron en `v2.1.0`, `v2.0.0` o `v1.x.x`).
+- **`constitution.md` §11**: corregido de "exactamente estas 8 secciones" a "9 secciones" (la sección 9 de ecosistema fue añadida en v2.2.0 vía §12 pero §11 no se actualizó). Se añadió la entrada explícita de **Position in ecosystem** como sección 9 obligatoria.
+- **`docs/agent-documentation.md`**: tabla de secciones actualizada de 8 a 9; checklist de Fase 8 ampliado con verificación explícita de la sección 9 (mini-diagrama Mermaid, upstream/downstream reales, nombre Lambda AWS, referencia a `docs/ecosystem.md`).
+
+### Added
+
+- **`prompt-update.md`** — Prompt listo para copiar en Claude Code para migrar un repo ya onboardeado a `v2.2.0`. Cubre tres rutas según la versión de origen: desde `v1.x.x`, desde `v2.0.0` o desde `v2.1.x` (la más común). Incluye diagnóstico automático, checklist por ruta, validación de §12 (nomenclatura AWS) y verificación de las 8 fases canónicas al finalizar.
+- **`README.md`**: árbol de repo actualizado con `prompt-onboarding.md` y `prompt-update.md`; sección "Para quién es" añade referencia al prompt de actualización.
+
+### Compatibilidad
+
+Sin cambios funcionales ni de comportamiento. Solo correcciones de documentación y nuevo prompt de migración. Repos existentes no necesitan acción.
+
+---
+
 ## [2.2.0] — 2026-04-27
 
 ### Added

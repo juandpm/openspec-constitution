@@ -1,6 +1,6 @@
 # Plantillas de fases canónicas
 
-> Versión: 2.0.0
+> Versión: 2.2.0
 > Uso: al lanzar `/opsx:propose phase-N-...`, Claude consulta este archivo para
 > generar el proposal y el tasks.md base adaptados al repo específico.
 

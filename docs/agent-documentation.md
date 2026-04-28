@@ -1,6 +1,6 @@
 # Documentación para agentes — Reglas para CLAUDE.md y README.md
 
-> openspec-constitution v2.1.0
+> openspec-constitution v2.2.0
 > Este documento define cómo escribir `CLAUDE.md` y `README.md` para que un agente de IA
 > pueda usarlos sin interpretación ambigua y sin necesitar contexto verbal adicional.
 
@@ -14,7 +14,7 @@
 | **Idioma** | Inglés | Español |
 | **Nivel de detalle** | Máximo — cada gotcha documentado | Suficiente para onboarding rápido |
 | **Foco** | Cómo funciona el código, qué no es obvio | Cómo instalar, usar y deployar |
-| **Secciones** | 8 obligatorias (ver constitución §11) | 6 obligatorias (ver constitución §11) |
+| **Secciones** | 9 obligatorias (ver constitución §11 y §12) | 6 obligatorias (ver constitución §11) |
 | **Duplicación** | Evitar duplicar con README.md | Evitar duplicar con CLAUDE.md |
 
 **Regla de oro**: si el agente necesita saber algo para no cometer un error, va en `CLAUDE.md`. Si un humano nuevo necesita saber algo para hacer funcionar el repo en su máquina, va en `README.md`.
@@ -150,11 +150,15 @@ Usar ese CLAUDE.md como referencia antes de escribir el de un repo nuevo.
 ## Checklist antes de archivar Fase 8
 
 ```
-[ ] CLAUDE.md tiene las 8 secciones (ninguna vacía ni con [TODO:])
+[ ] CLAUDE.md tiene las 9 secciones (ninguna vacía ni con [TODO:])
 [ ] Project overview: ≥ 3 oraciones con stack, entorno, quién invoca
 [ ] Development commands: cada comando tiene "cuándo usarlo"
 [ ] Architecture: hay un diagrama de flujo textual, no solo lista de módulos
 [ ] Non-obvious details: ≥ 2 entradas reales (no genéricas)
+[ ] Position in ecosystem (sección 9): mini-diagrama Mermaid con upstream/downstream reales
+[ ]   → upstream y downstream no son placeholders [TODO]
+[ ]   → referencia a docs/ecosystem.md de openspec-constitution
+[ ]   → nombre exacto de la función Lambda en AWS
 [ ] README.md tiene las 6 secciones en español
 [ ] README.md "Instalación": pasos reproducibles desde cero
 [ ] README.md "Deploy": pipeline, trigger y secrets documentados

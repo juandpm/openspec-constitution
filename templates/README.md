@@ -1,5 +1,5 @@
 # [TODO: Nombre del repo]
-<!-- openspec-constitution v2.1.0 — template README.md -->
+<!-- openspec-constitution v2.2.0 — template README.md -->
 <!-- Copiar a la raíz del repo. Reemplazar todos los [TODO: ...] antes de cerrar Fase 8. -->
 <!-- Este archivo es para onboarding humano, en español. Para contexto de agentes, ver CLAUDE.md. -->
 

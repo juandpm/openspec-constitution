@@ -54,7 +54,7 @@ handler (src/index.js)
 
 ## Code conventions
 
-Follows openspec-constitution v2.1.0. Repo-specific deviations:
+Follows openspec-constitution v2.2.0. Repo-specific deviations:
 
 - [TODO: list any local deviations documented in openspec/project.md, or write "None."]
 

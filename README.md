@@ -17,6 +17,7 @@ No es código. Son documentos y plantillas. Cada proyecto Node.js del equipo ref
 - **Tú, generando propuestas de fase en OpenSpec**: `phase-templates.md` tiene las plantillas.
 - **Tú, configurando logging estructurado**: `docs/logging.md` tiene la guía completa de pino.
 - **Tú, entendiendo cómo encajan todos los repos**: `docs/ecosystem.md` tiene el diagrama completo de arquitectura con todos los repositorios, colas SQS, API Gateway, storage y servicios externos.
+- **Tú, migrando un repo ya onboardeado a v2.2.0**: `prompt-update.md` tiene el prompt listo para pegar en Claude Code.
 
 ---
 
@@ -32,6 +33,8 @@ openspec-constitution/
 ├── playbook-onboarding.md                 ← paso a paso para adoptar OpenSpec (legacy y greenfield)
 ├── phase-templates.md                     ← plantillas de proposals y tasks por fase (8 fases)
 ├── vitest-patterns.md                     ← patrones críticos de testing con ESM (7 patrones)
+├── prompt-onboarding.md                   ← prompt para Claude Code: onboarding de repo nuevo o legacy
+├── prompt-update.md                       ← prompt para Claude Code: migrar repo ya onboardeado a v2.2.0
 │
 ├── docs/
 │   ├── structure.md                       ← estructura de directorios recomendada

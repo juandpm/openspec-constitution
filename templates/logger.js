@@ -1,5 +1,5 @@
 // src/config/logger.js
-// Pino logger singleton — openspec-constitution v2.1.0
+// Pino logger singleton — openspec-constitution v2.2.0
 //
 // Production: structured JSON to stdout (CloudWatch compatible).
 // Development (NODE_ENV=development): human-readable via pino-pretty transport.
