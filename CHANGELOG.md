@@ -7,6 +7,18 @@ y el versionado sigue [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [2.2.2] — 2026-04-28
+
+### Fixed
+
+- **`prompt-update.md`**: todas las referencias de versión destino actualizadas de `v2.2.0` → `v2.2.1`; añadida **RUTA D** para repos que ya están en `v2.2.0` (PATCH mínimo: verificar sección 9 y actualizar referencia en `project.md`); tablas de rutas y tiempos actualizadas con el nuevo caso `v2.2.0 → D`.
+
+### Compatibilidad
+
+Sin cambios funcionales. Solo corrección del prompt de migración. Repos existentes no necesitan acción.
+
+---
+
 ## [2.2.1] — 2026-04-28
 
 ### Fixed

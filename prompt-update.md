@@ -1,15 +1,15 @@
-# Prompt de actualización — Migrar repo onboardeado a openspec-constitution v2.2.0
+# Prompt de actualización — Migrar repo onboardeado a openspec-constitution v2.2.1
 
 > Para copiar y pegar en Claude Code en un repo que ya fue onboardeado con OpenSpec
-> y que referencia una versión anterior a `v2.2.0`.
-> Referencia: `openspec-constitution v2.2.0`
+> y que referencia una versión anterior a `v2.2.1`.
+> Referencia: `openspec-constitution v2.2.1`
 
 ---
 
 ## Cuándo usar este prompt
 
 Cuando el repo ya tiene OpenSpec activo (`openspec/project.md` con referencia a la constitución)
-y necesita actualizarse a `v2.2.0`. La versión de origen puede ser `v1.x.x`, `v2.0.0` o `v2.1.x`.
+y necesita actualizarse a `v2.2.1`. La versión de origen puede ser `v1.x.x`, `v2.0.0`, `v2.1.x` o `v2.2.0`.
 
 **No uses este prompt para repos sin onboarding previo.** Para esos, usa `prompt-onboarding.md`.
 
@@ -19,7 +19,7 @@ y necesita actualizarse a `v2.2.0`. La versión de origen puede ser `v1.x.x`, `v
 
 ```
 Actúa como mi agente de ingeniería. Este repo ya tiene OpenSpec activo y necesita
-actualizarse a openspec-constitution v2.2.0 (https://github.com/juandpm/openspec-constitution).
+actualizarse a openspec-constitution v2.2.1 (https://github.com/juandpm/openspec-constitution).
 Mi usuario de GitHub es juandpm.
 
 REGLAS DE OPERACIÓN:
@@ -40,54 +40,61 @@ PASO 1 — DIAGNÓSTICO DE VERSIÓN ACTUAL
 2. Clasifica la brecha:
 
    CASO A — viene de v1.x.x (v1.0.0 o v1.1.0):
-     Hay tres saltos acumulados: v1→v2.0.0 + v2.0.0→v2.1.0 + v2.1.0→v2.2.0
+     Hay cuatro saltos acumulados: v1→v2.0.0 + v2.0.0→v2.1.0 + v2.1.0→v2.2.0 + v2.2.0→v2.2.1
      → Ir a RUTA A (migración completa desde v1.x.x)
 
    CASO B — viene de v2.0.0:
-     Hay dos saltos: v2.0.0→v2.1.0 + v2.1.0→v2.2.0
+     Hay tres saltos: v2.0.0→v2.1.0 + v2.1.0→v2.2.0 + v2.2.0→v2.2.1
      → Ir a RUTA B (migración desde v2.0.0)
 
    CASO C — viene de v2.1.x (v2.1.0 o v2.1.1):
-     Un solo salto: v2.1.x→v2.2.0
-     → Ir a RUTA C (migración desde v2.1.x — la más común)
+     Dos saltos: v2.1.x→v2.2.0 + v2.2.0→v2.2.1
+     → Ir a RUTA C (migración desde v2.1.x)
+
+   CASO D — viene de v2.2.0:
+     Un solo salto PATCH: v2.2.0→v2.2.1 (solo correcciones de documentación)
+     → Ir a RUTA D (actualización mínima desde v2.2.0)
 
 3. Reporta el caso detectado con evidencia y espera mi confirmación.
 
 ═══════════════════════════════════════════════════════════════
-RUTA A — Migración desde v1.x.x a v2.2.0
+RUTA A — Migración desde v1.x.x a v2.2.1
 ═══════════════════════════════════════════════════════════════
 
-Ejecuta A.1 → A.2 → A.3 en orden, pausando entre cada uno.
+Ejecuta A.1 → A.2 → A.3 → A.4 en orden, pausando entre cada uno.
 
 A.1 DELTA v1→v2.0.0 (lo que falta de este salto):
   Ejecuta: /opsx:propose upgrade-constitution-v1-to-v2
 
   Verifica y completa si falta:
   □ CLAUDE.md en la raíz con las 9 secciones
-    - Descargar base: curl -o CLAUDE.md https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.2.0/templates/CLAUDE.md
+    - Descargar base: curl -o CLAUDE.md https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.2.1/templates/CLAUDE.md
     - Completar TODOS los [TODO:] con información real del repo
     - NO cerrar hasta que ninguna sección tenga placeholder pendiente
   □ .gitattributes en la raíz
-    - Si no existe: curl -O https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.2.0/templates/.gitattributes
+    - Si no existe: curl -O https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.2.1/templates/.gitattributes
   □ Hook post-archive robusto (maneja ausencia de improvement-plan.md)
     - Verificar que .claude/hooks/post-archive.js lee condicionalmente improvement-plan.md
-    - Si es la versión vieja: curl -o .claude/hooks/post-archive.js https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.2.0/templates/claude-hooks/post-archive.js
+    - Si es la versión vieja: curl -o .claude/hooks/post-archive.js https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.2.1/templates/claude-hooks/post-archive.js
   □ Fase 8 ejecutada o planificada (documentación para agentes)
     - Si no se hizo: planificarla antes de pasar a A.2
 
   Avísame para /opsx:archive upgrade-constitution-v1-to-v2.
 
 A.2 DELTA v2.0.0→v2.1.0 (ir a RUTA B después de A.1):
-  Ver instrucciones de RUTA B.
+  Ver instrucciones de RUTA B sección B.1.
 
 A.3 DELTA v2.1.0→v2.2.0 (ir a RUTA C después de A.2):
   Ver instrucciones de RUTA C.
 
+A.4 DELTA v2.2.0→v2.2.1 (ir a RUTA D después de A.3):
+  Ver instrucciones de RUTA D.
+
 ═══════════════════════════════════════════════════════════════
-RUTA B — Migración desde v2.0.0 a v2.2.0
+RUTA B — Migración desde v2.0.0 a v2.2.1
 ═══════════════════════════════════════════════════════════════
 
-Ejecuta B.1 → B.2 en orden, pausando entre cada uno.
+Ejecuta B.1 → B.2 → B.3 en orden, pausando entre cada uno.
 
 B.1 DELTA v2.0.0→v2.1.0:
   Ejecuta: /opsx:propose upgrade-constitution-v2.0.0-to-v2.1.0
@@ -102,7 +109,7 @@ B.1 DELTA v2.0.0→v2.1.0:
       ls src/config/logger.js
       → Si no existe:
         mkdir -p src/config
-        curl -o src/config/logger.js https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.2.0/templates/logger.js
+        curl -o src/config/logger.js https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.2.1/templates/logger.js
   □ console.log reemplazado por logger en código de producción:
       grep -rn "console\.log\|console\.error\|console\.warn" src/
       → Si hay resultados: reemplazar uno por uno con la llamada logger correspondiente
@@ -123,8 +130,11 @@ B.1 DELTA v2.0.0→v2.1.0:
 B.2 DELTA v2.1.0→v2.2.0:
   Ver instrucciones de RUTA C.
 
+B.3 DELTA v2.2.0→v2.2.1:
+  Ver instrucciones de RUTA D.
+
 ═══════════════════════════════════════════════════════════════
-RUTA C — Migración desde v2.1.x a v2.2.0 (la más común)
+RUTA C — Migración desde v2.1.x a v2.2.1
 ═══════════════════════════════════════════════════════════════
 
 Ejecuta: /opsx:propose upgrade-constitution-v2.1-to-v2.2
@@ -133,12 +143,12 @@ C.1 DIAGNÓSTICO DETALLADO (antes de escribir una línea):
   Lee estos archivos:
     - CLAUDE.md (¿tiene sección 9 "Position in ecosystem"? ¿tiene mini-diagrama Mermaid real?)
     - openspec/project.md (¿qué versión declara?)
-    - https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.2.0/docs/ecosystem.md
+    - https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.2.1/docs/ecosystem.md
       (leerlo completo — es el mapa de referencia para saber upstream/downstream de este repo)
 
   Genera este checklist con estado real del repo:
 
-    □ openspec/project.md referencia v2.2.0        [actual: vX.Y.Z]
+    □ openspec/project.md referencia v2.2.1        [actual: vX.Y.Z]
     □ CLAUDE.md tiene sección 9                     [sí / no / incompleta]
     □ Sección 9: mini-diagrama Mermaid presente     [sí / no / placeholder TODO]
     □ Sección 9: upstream declarado (no placeholder)[sí / no]
@@ -184,8 +194,8 @@ C.2 COMPLETAR SECCIÓN 9 EN CLAUDE.md:
   Muéstrame la sección 9 propuesta y pide mi feedback antes de guardar.
 
 C.3 VALIDAR NOMENCLATURA AWS (constitution §12):
-  Lee constitution.md §12 de openspec-constitution v2.2.0:
-    https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.2.0/constitution.md
+  Lee constitution.md §12 de openspec-constitution v2.2.1:
+    https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.2.1/constitution.md
 
   Para este repo, verifica:
   □ Nombre de la Lambda sigue patrón lambda-{dominio}[-{variante}]
@@ -199,20 +209,54 @@ C.3 VALIDAR NOMENCLATURA AWS (constitution §12):
 C.4 ACTUALIZAR REFERENCIA EN project.md:
   En openspec/project.md, cambiar la primera línea:
     Antes: > Adhiere a openspec-constitution vX.Y.Z
-    Después: > Adhiere a openspec-constitution v2.2.0
-             > https://github.com/juandpm/openspec-constitution/tree/v2.2.0
+    Después: > Adhiere a openspec-constitution v2.2.1
+             > https://github.com/juandpm/openspec-constitution/tree/v2.2.1
 
   Solo hacer este cambio cuando los puntos C.2 y C.3 estén completos.
 
 C.5 VERIFICACIÓN FINAL:
   Ejecuta estos checks y reporta resultado:
-    □ grep "v2.2.0" openspec/project.md         → debe aparecer
+    □ grep "v2.2.1" openspec/project.md         → debe aparecer
     □ grep "Position in ecosystem" CLAUDE.md    → debe aparecer
     □ grep "TODO" CLAUDE.md                     → idealmente 0 resultados
     □ grep -c "console\.log" src/ 2>/dev/null   → idealmente 0 en producción
     □ grep "pino" package.json                  → debe estar en "dependencies"
 
   Si todo pasa, avísame para /opsx:archive upgrade-constitution-v2.1-to-v2.2.
+
+  Luego continúa con RUTA D para el salto PATCH final.
+
+═══════════════════════════════════════════════════════════════
+RUTA D — Actualización desde v2.2.0 a v2.2.1 (PATCH)
+═══════════════════════════════════════════════════════════════
+
+v2.2.1 es un PATCH de correcciones de documentación. No hay cambios funcionales.
+El único trabajo necesario es actualizar la referencia en project.md.
+
+Ejecuta: /opsx:propose upgrade-constitution-v2.2.0-to-v2.2.1
+
+D.1 VERIFICAR QUE LAS CORRECCIONES YA APLICAN:
+  Estos son los cambios de v2.2.1 (ya están en los templates del tag):
+  □ constitution.md §11 dice explícitamente "9 secciones" (antes decía 8)
+  □ CLAUDE.md tiene las 9 secciones documentadas (sección 9 = Position in ecosystem)
+  □ Si el CLAUDE.md del repo fue generado desde un template anterior a v2.2.1,
+    verificar que la sección 9 existe y no tiene [TODO:] pendientes
+
+  Si la sección 9 del CLAUDE.md tiene [TODO:] pendientes:
+  → Ejecutar C.2 y C.3 de RUTA C antes de continuar.
+
+D.2 ACTUALIZAR REFERENCIA EN project.md:
+  En openspec/project.md, cambiar la primera línea:
+    Antes: > Adhiere a openspec-constitution v2.2.0
+    Después: > Adhiere a openspec-constitution v2.2.1
+             > https://github.com/juandpm/openspec-constitution/tree/v2.2.1
+
+D.3 VERIFICACIÓN FINAL:
+    □ grep "v2.2.1" openspec/project.md         → debe aparecer
+    □ grep "Position in ecosystem" CLAUDE.md    → debe aparecer
+    □ grep "TODO" CLAUDE.md                     → idealmente 0 resultados
+
+  Si todo pasa, avísame para /opsx:archive upgrade-constitution-v2.2.0-to-v2.2.1.
 
 ═══════════════════════════════════════════════════════════════
 DESPUÉS DE LA MIGRACIÓN — Verificación de fases
@@ -235,7 +279,7 @@ para confirmar que el repo está al día:
 Si hay fases con ⏳: propón continuar con la siguiente pendiente antes de
 arrancar cualquier trabajo nuevo. Todo nuevo trabajo va por OpenSpec.
 
-Si todas las fases están ✅: el repo está al día con v2.2.0. Pregunta qué sigue.
+Si todas las fases están ✅: el repo está al día con v2.2.1. Pregunta qué sigue.
 
 ═══════════════════════════════════════════════════════════════
 INICIAR
@@ -253,14 +297,16 @@ Lee openspec/project.md, reporta qué versión declara y espera mi confirmación
 
 | Desde | Ruta | Cambios principales |
 |---|---|---|
-| `v1.x.x` | A → B → C | CLAUDE.md + .gitattributes + hook + Fase 8 + pino + logger + sección 9 ecosistema |
-| `v2.0.0` | B → C | pino + logger.js + console→logger + sección 9 ecosistema |
-| `v2.1.x` | C | Sección 9 en CLAUDE.md con mini-diagrama Mermaid + validar §12 |
+| `v1.x.x` | A → B → C → D | CLAUDE.md + .gitattributes + hook + Fase 8 + pino + logger + sección 9 ecosistema |
+| `v2.0.0` | B → C → D | pino + logger.js + console→logger + sección 9 ecosistema |
+| `v2.1.x` | C → D | Sección 9 en CLAUDE.md con mini-diagrama Mermaid + validar §12 |
+| `v2.2.0` | D | Solo actualizar referencia en project.md (PATCH, sin cambios funcionales) |
 
 ## Tiempo estimado por ruta
 
 | Ruta | Estimado |
 |---|---|
+| D (desde v2.2.0) | 5 min — solo actualizar project.md y verificar sección 9 |
 | C (desde v2.1.x) | 20–40 min — principalmente completar sección 9 del CLAUDE.md |
 | B (desde v2.0.0) | 1–2 h — instalar pino, migrar console.log, luego sección 9 |
 | A (desde v1.x.x) | 2–4 h — todo lo anterior más CLAUDE.md completo y Fase 8 |
