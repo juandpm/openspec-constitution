@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git mv *)",
+      "Bash(git merge *)",
+      "Bash(git push *)",
+      "Bash(git tag *)",
+      "Bash(curl -sI \"https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.0.0/constitution.md\")",
+      "Bash(curl -sI \"https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.0.0/templates/.gitattributes\")",
+      "Bash(curl -sI \"https://raw.githubusercontent.com/juandpm/openspec-constitution/v2.0.0/templates/CLAUDE.md\")",
+      "Bash(curl -sI \"https://raw.githubusercontent.com/juandpm/openspec-constitution/v1.0.0/constitution.md\")",
+      "Bash(curl -sI \"https://raw.githubusercontent.com/juandpm/openspec-constitution/v1.1.0/constitution.md\")",
+      "Bash(grep -E \"\\\\.md$|CLAUDE\")",
+      "Bash(xxd \"C:\\\\Users\\\\juand\\\\Documents\\\\ssspa\\\\openspec-constitution\\\\VERSION\")"
+    ]
+  }
+}
