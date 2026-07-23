@@ -59,6 +59,12 @@ flowchart TB
         LPAY["lambda-payments\nTransbank WebpayPlus\n[en desarrollo]"]:::lambda
     end
 
+    %% ── AUTENTICACIÓN (Cognito passwordless) ──
+    subgraph AUTH["Autenticación · Cognito client pool"]
+        COGC["Cognito client User Pool\npasswordless custom-auth"]:::apigw
+        LCA["lambda-client-auth\nOTP por WhatsApp\n4 triggers custom-auth"]:::lambda
+    end
+
     %% ── SQS ──
     subgraph QUEUES["SQS Queues · us-east-1"]
         Q1["webhook-to-messages-queue.fifo"]:::sqs
@@ -109,6 +115,12 @@ flowchart TB
     UWA <-->|mensajes| WAAPI
     WAAPI -->|webhook POST| GW1
     WAAPI <-->|Flows cifrados| GW2
+
+    %% ── CONEXIONES: Autenticación (Cognito passwordless) ──
+    UBROW -->|signUp / initiateAuth| COGC
+    COGC -->|4 custom-auth triggers| LCA
+    LCA -->|envía OTP| WAAPI
+    COGC -.->|idToken → verificado por messages /app y webhook /chat| UBROW
 
     %% ── CONEXIONES: Admin / Pagos ──
     UADMIN -->|API calls| GW3
@@ -184,6 +196,7 @@ flowchart TB
 | `lambda-odoo-purchase` | Processing | Crea facturas de compra en Odoo. | SQS `odoo-purchse-queue.fifo` + `odoo-purchse-queue-sv.fifo` |
 | `lambda-odoo-products` | Processing | Sincroniza productos y precios en Odoo. **No relacionado con pagos.** | SQS `odoo-products-queue.fifo` |
 | `lambda-sii` | Processing | Emite DTEs al SII Chile vía Odoo. Maneja idempotencia y DLQ. | SQS `sii-queue.fifo` |
+| `lambda-client-auth` | Auth | Login **passwordless por OTP vía WhatsApp** para el pool de clientes de Cognito (PWA). Emite el idToken que verifican `lambda-messages` (`/app/*`) y `lambda-webhook` (`/chat`). | Cognito custom-auth triggers (PreSignUp / Define / Create / Verify) |
 
 ---
 
@@ -252,7 +265,8 @@ flowchart TB
 
 | Servicio | Uso | Lambdas que lo consumen |
 |---|---|---|
-| WhatsApp Business API (Meta Graph v21.0) | Recepción y envío de mensajes + WhatsApp Flows | `lambda-webhook` (entrada), `lambda-flows` (Flows), `lambda-notifications` (salida) |
+| WhatsApp Business API (Meta Graph v21.0) | Recepción y envío de mensajes + WhatsApp Flows + envío de OTP de login | `lambda-webhook` (entrada), `lambda-flows` (Flows), `lambda-notifications` (salida), `lambda-client-auth` (OTP) |
+| AWS Cognito (client User Pool) | Autenticación passwordless (custom-auth) del PWA; emisión y verificación de idToken | `lambda-client-auth` (triggers), `lambda-messages` / `lambda-webhook` (verifican idToken) |
 | Odoo ERP (JSON-RPC) | Creación de documentos fiscales, gestión de productos | `lambda-odoo`, `lambda-odoo-purchase`, `lambda-odoo-products`, `lambda-sii` |
 | SII Chile (DTE Electrónico) | Envío de documentos tributarios electrónicos | Vía Odoo → `lambda-sii` |
 | Transbank WebpayPlus SDK v5 | Pasarela de pagos chilena | `lambda-payments` |
